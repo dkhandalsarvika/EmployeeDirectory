@@ -8,7 +8,7 @@ import Paragraph from '../components/Paragraph';
 const HomeScreen = ({ navigation }) => (
   <Background>
     <Logo />
-    <Header>Sarvika Login</Header>
+    <Header>Version 1.0.0</Header>
 
     <Paragraph>
       Authorize to get Sarvika Employee Directory

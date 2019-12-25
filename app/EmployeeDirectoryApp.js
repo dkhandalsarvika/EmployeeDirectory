@@ -4,6 +4,9 @@ import {Navigator} from 'react-native-deprecated-custom-components';
 import EmployeeList from './EmployeeList';
 import EmployeeDetails from './EmployeeDetails';
 import SplashScreen from 'react-native-splash-screen'
+import firebase from "firebase/app";
+import "firebase/auth";
+import RNRestart from 'react-native-restart';
 
 // import { createAppContainer } from 'react-navigation';
 // import { createStackNavigator } from 'react-navigation-stack';
@@ -63,13 +66,23 @@ export default class EmployeeDirectoryApp extends Component {
         }
     }
 
+    onPressLogout = () => {
+    console.log('onPressLogout called')
+    firebase.auth().signOut();
+    // Immediately reload the React Native Bundle
+    // RNRestart.Restart();
+    console.log(RNRestart)
+    // Alert.alert(RNRestart);
+    // Alert.alert('onPressLogout called');
+  }
+
     render() {
         return (
             <>
             {this.hideSplash()}
             {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
             <Navigator
-                initialRoute={{name: 'employee-list', title: 'Employee List'}}
+                initialRoute={{name: 'employee-list', title: 'Sarvika Employee List'}}
                 renderScene={this.renderScene}
                 navigationBar={
                     <Navigator.NavigationBar
@@ -86,7 +99,14 @@ export default class EmployeeDirectoryApp extends Component {
                                 }
                             },
                             RightButton: (route, navigator, index, navState) => {
-                                return null;
+
+                                return (
+                                        <TouchableOpacity onPress={this.onPressLogout}>
+                                            <Image source={require('./assets/signout.png')} style={styles.logOut} />
+                                        </TouchableOpacity>
+                                    );
+
+                                ///return <Button style={styles.logOut} title="Logout" onPress={() => this._saveDetails()} />;
                             },
                             Title: (route, navigator, index, navState) => {
                                 return (<Text style={styles.title}>{route.title}</Text>);
@@ -114,8 +134,14 @@ const styles = StyleSheet.create({
     },
     title: {
         padding: 8,
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold'
+    },
+    logOut: {
+        marginTop: 10,
+        marginRight: 15,
+        height: 30,
+        width: 30
     },
     container: {
     flex: 1,
