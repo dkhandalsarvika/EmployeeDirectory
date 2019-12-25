@@ -14,6 +14,9 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState({ value: '', error: '' });
 
   const _onLoginPressed = () => {
+    // email.value = 'deepak.khandal@sarvika.com'
+    // password.value = 'deepak12345'
+
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
 
@@ -33,6 +36,7 @@ const LoginScreen = ({ navigation }) => {
       <Logo />
 
       <Header>Welcome back.</Header>
+
 
       <TextInput
         label="Email"
