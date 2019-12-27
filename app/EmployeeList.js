@@ -142,7 +142,7 @@ export default class EmployeeList extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#1B2732',
         marginTop: 60
     },
     separator: {

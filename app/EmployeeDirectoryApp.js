@@ -4,9 +4,9 @@ import {Navigator} from 'react-native-deprecated-custom-components';
 import EmployeeList from './EmployeeList';
 import EmployeeDetails from './EmployeeDetails';
 import SplashScreen from 'react-native-splash-screen'
-import firebase from "firebase/app";
-import "firebase/auth";
-import RNRestart from 'react-native-restart';
+// import firebase from "firebase/app";
+// import "firebase/auth";
+// import RNRestart from 'react-native-restart';
 
 // import { createAppContainer } from 'react-navigation';
 // import { createStackNavigator } from 'react-navigation-stack';
@@ -66,15 +66,15 @@ export default class EmployeeDirectoryApp extends Component {
         }
     }
 
-    onPressLogout = () => {
-    console.log('onPressLogout called')
-    firebase.auth().signOut();
-    // Immediately reload the React Native Bundle
-    // RNRestart.Restart();
-    console.log(RNRestart)
-    // Alert.alert(RNRestart);
-    // Alert.alert('onPressLogout called');
-  }
+//     onPressLogout = () => {
+//     console.log('onPressLogout called')
+//     firebase.auth().signOut();
+//     // Immediately reload the React Native Bundle
+//     RNRestart.Restart();
+//     console.log(RNRestart)
+//     // Alert.alert(RNRestart);
+//     // Alert.alert('onPressLogout called');
+//   }
 
     render() {
         return (
@@ -100,11 +100,12 @@ export default class EmployeeDirectoryApp extends Component {
                             },
                             RightButton: (route, navigator, index, navState) => {
 
-                                return (
-                                        <TouchableOpacity onPress={this.onPressLogout}>
-                                            <Image source={require('./assets/signout.png')} style={styles.logOut} />
-                                        </TouchableOpacity>
-                                    );
+                                return null;
+                                // (
+                                //         <TouchableOpacity onPress={this.onPressLogout}>
+                                //             <Image source={require('./assets/signout.png')} style={styles.logOut} />
+                                //         </TouchableOpacity>
+                                //     );
 
                                 ///return <Button style={styles.logOut} title="Logout" onPress={() => this._saveDetails()} />;
                             },
@@ -123,8 +124,8 @@ export default class EmployeeDirectoryApp extends Component {
 
 const styles = StyleSheet.create({
     navBar: {
-        backgroundColor: '#FAFAFF',
-        height: 60,
+        backgroundColor: '#00B386',
+        height: 60
     },
     backButton: {
         marginTop: 8,
@@ -135,7 +136,8 @@ const styles = StyleSheet.create({
     title: {
         padding: 8,
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#FFFFFF'
     },
     logOut: {
         marginTop: 10,

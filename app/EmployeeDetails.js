@@ -66,15 +66,15 @@ export default class EmployeeDetails extends Component {
 const styles = StyleSheet.create({
     container: {
         marginTop: 60,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#1B2732',
         flex: 1
     },
     header: {
         alignItems: 'center',
         backgroundColor: '#FAFAFF',
         paddingBottom: 4,
-        borderBottomColor: '#F2F2F7',
-        borderBottomWidth: StyleSheet.hairlineWidth
+        borderBottomColor: '#00B386',
+        borderBottomWidth: 5//StyleSheet.hairlineWidth
     },
     manager: {
         paddingBottom: 10,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#AAAAAA',
     },
     list: {
-        flex: 1,
+        flex: 1
     },
     emptyList: {
         flex: 1,
@@ -109,6 +109,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     lightText: {
-        color: '#C7C7CC'
+        color: '#00B386' //C7C7CC
     }
 });

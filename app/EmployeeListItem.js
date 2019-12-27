@@ -13,7 +13,7 @@ export default class EmployeeListItem extends Component {
                 <View style={styles.container}>
                     <Image source={{uri: this.props.data.picture}} style={styles.picture} />
                     <View>
-                        <Text>{this.props.data.firstName} {this.props.data.lastName}</Text>
+                        <Text style={styles.empNameText}>{this.props.data.firstName} {this.props.data.lastName}</Text>
                         <Text style={styles.title}>{this.props.data.title}</Text>
                     </View>
                 </View>
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        padding: 8
+        padding: 8,
+        backgroundColor: '#1B2732'
     },
     picture: {
         width: 40,
@@ -35,6 +36,11 @@ const styles = StyleSheet.create({
         marginRight: 8
     },
     title: {
-        color: '#848484'
+        color: '#848484' //C7C7CC
+    },
+    empNameText: {
+        color: '#00B386',
+        fontWeight: 'bold',
+        fontSize: 16
     }
 });
