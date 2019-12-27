@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#C9C9CE',
     },
     input: {
-        height: 30,
+        height: 40,
         flex: 1,
         paddingHorizontal: 8,
         backgroundColor: '#FFFFFF',
-        borderRadius: 4,
+        borderRadius: 15,
     },
 });
 
