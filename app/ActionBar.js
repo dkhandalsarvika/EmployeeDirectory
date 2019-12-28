@@ -1,18 +1,26 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity, Linking} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity, Linking,Alert} from 'react-native';
 
 export default class ActionBar extends Component {
 
     callNumber() {
-        this.openURL('tel:' + this.props.mobilePhone);
+        Alert.alert(this.props.phone);
+        //this.openURL('tel:' + this.props.phone);
+    }
+
+    callENumber() {
+        Alert.alert(this.props.ePhone);
+        //this.openURL('tel:' + this.props.ePhone);
     }
 
     sendMessage() {
-        this.openURL('sms:' + this.props.mobilePhone);
+        Alert.alert(this.props.phone);
+        //this.openURL('sms:' + this.props.phone);
     }
 
-    sendMail() {
-        this.openURL('mailto:' + this.props.email);
+    sendMail() {    
+        Alert.alert(this.props.email);
+        //this.openURL('mailto:' + this.props.email);
     }
 
     openURL(url) {
@@ -36,6 +44,10 @@ export default class ActionBar extends Component {
                     <Image source={require('./assets/call.png')} style={styles.icon} />
                     <Text style={styles.actionText}>call</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={this.callENumber.bind(this)} style={styles.action}>
+                    <Image source={require('./assets/ecall.png')} style={styles.icon} />
+                    <Text style={styles.actionText}>e-call</Text>
+                </TouchableOpacity>                
                 <TouchableOpacity onPress={this.sendMessage.bind(this)} style={styles.action}>
                     <Image source={require('./assets/sms.png')} style={styles.icon} />
                     <Text style={styles.actionText}>message</Text>

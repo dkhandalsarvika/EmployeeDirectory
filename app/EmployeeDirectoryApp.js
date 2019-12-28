@@ -125,7 +125,7 @@ export default class EmployeeDirectoryApp extends Component {
 const styles = StyleSheet.create({
     navBar: {
         backgroundColor: '#00B386',
-        height: 60
+        height: 50
     },
     backButton: {
         marginTop: 8,
@@ -134,8 +134,9 @@ const styles = StyleSheet.create({
         width: 24
     },
     title: {
+        marginTop: 8,
         padding: 8,
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold',
         color: '#FFFFFF'
     },

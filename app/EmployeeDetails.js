@@ -29,7 +29,7 @@ export default class EmployeeDetails extends Component {
             if (employee.manager) {
                 manager = <TouchableOpacity style={styles.manager} onPress={this.openManager.bind(this)}>
                             <Image source={{uri: employee.manager.picture}} style={styles.smallPicture} />
-                            <Text style={styles.lightText}>{employee.manager.firstName} {employee.manager.lastName}</Text>
+                            <Text style={styles.blackText}>{employee.manager.firstName} {employee.manager.lastName}</Text>
                             <Text style={styles.lightText}>{employee.manager.title}</Text>
                           </TouchableOpacity>;
             }
@@ -52,7 +52,7 @@ export default class EmployeeDetails extends Component {
                         <Image source={{uri: employee.picture}} style={styles.picture} />
                         <Text style={styles.bigText}>{employee.firstName} {employee.lastName}</Text>
                         <Text style={[styles.mediumText, styles.lightText]}>{employee.title}</Text>
-                        <ActionBar mobilePhone={employee.mobilePhone} email={employee.email} />
+                        <ActionBar phone={employee.phone} ePhone={employee.mobilePhone} email={employee.email} />
                     </View>
                     {directReports}
                 </View>
@@ -65,7 +65,7 @@ export default class EmployeeDetails extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 60,
+        marginTop: 50,
         backgroundColor: '#1B2732',
         flex: 1
     },
@@ -81,14 +81,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     picture: {
-        width: 80,
-        height: 80,
-        borderRadius: 40
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        marginTop: 10
     },
     smallPicture: {
-        width: 40,
-        height: 40,
-        borderRadius: 20
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        marginTop: 10
     },
     mediumText: {
         fontSize: 16,
@@ -110,5 +112,8 @@ const styles = StyleSheet.create({
     },
     lightText: {
         color: '#00B386' //C7C7CC
+    },
+    blackText: {
+        color: '#333333' //C7C7CC
     }
 });
