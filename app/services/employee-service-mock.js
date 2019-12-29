@@ -662,6 +662,7 @@ export let findByName = (name) => new Promise((resolve, reject) => {
 export let findById = (id) => new Promise((resolve, reject) => {
     let employee = employees[id-1];
     resolve({
+        empId: employee.empId,
         firstName: employee.firstName,
         lastName: employee.lastName,
         title: employee.title,
