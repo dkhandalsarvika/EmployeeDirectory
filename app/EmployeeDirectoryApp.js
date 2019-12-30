@@ -1,9 +1,10 @@
 import React, {Component,useEffect} from 'react';
-import {Text, TouchableOpacity, Image, StyleSheet,StatusBar,Platform,Alert,View,Button} from 'react-native';
+import {Text, TouchableOpacity, Image, StyleSheet,StatusBar,Platform,Alert,View,Button,BackHandler} from 'react-native';
 import {Navigator} from 'react-native-deprecated-custom-components';
 import EmployeeList from './EmployeeList';
 import EmployeeDetails from './EmployeeDetails';
 import SplashScreen from 'react-native-splash-screen'
+import { logoutUser } from "../src/api/auth-api";
 // import firebase from "firebase/app";
 // import "firebase/auth";
 // import RNRestart from 'react-native-restart';
@@ -48,6 +49,33 @@ export default class EmployeeDirectoryApp extends Component {
     //     }  
     //     this.handleEvent = this.handleEvent.bind(this);  
     // }  
+
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+    }
+
+    onBackButtonPressed() {
+        console.log("onBackButtonPressed called while logout");
+                    //function to make two option alert
+            Alert.alert(
+              //title
+              'LOGOUT',
+              //body
+              'Do you want to logout ?',
+              [
+                {text: 'Yes', onPress: () => logoutUser()},
+                {text: 'No', onPress: () => console.log('No Pressed for logout'), style: 'cancel'},
+              ],
+              { cancelable: false }
+              //clicking out side of alert will not cancel
+            );
+        
+        return true;
+    }
 
      hideSplash(){   
         console.log("hideSplash called");

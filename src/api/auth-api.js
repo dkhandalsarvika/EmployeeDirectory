@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 export const logoutUser = () => {
+  console.log("API logoutUser called");
   firebase.auth().signOut();
 };
 
