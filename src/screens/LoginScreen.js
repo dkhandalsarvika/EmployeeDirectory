@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Keyboard } from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -8,14 +8,20 @@ import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
 import { emailValidator, passwordValidator } from '../core/utils';
+import { loginUser } from "../api/auth-api";
+import Toast from "../components/Toast";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const _onLoginPressed = () => {
-    email.value = 'deepak.khandal@sarvika.com'
-    password.value = 'deepak12345'
+  const _onLoginPressed = async () => {
+    // email.value = 'deepak.khandal@sarvika.com'
+    // password.value = 'deepak12345'
+
+    if (loading) return;
 
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
@@ -26,7 +32,22 @@ const LoginScreen = ({ navigation }) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
+    setLoading(true);
+
+    const response = await loginUser({
+      email: email.value,
+      password: password.value
+    });
+
+    if (response.error) {
+      setError(response.error);
+      Keyboard.dismiss();
+    }
+
+    setLoading(false);
+
+    // navigation.navigate('Dashboard');
+    Keyboard.dismiss();
   };
 
   return (
@@ -47,6 +68,8 @@ const LoginScreen = ({ navigation }) => {
         errorText={email.error}
         autoCapitalize="none"
         autoCompleteType="email"
+        textContentType="emailAddress"
+        keyboardType="email-address"
       />
 
       <TextInput
@@ -57,6 +80,7 @@ const LoginScreen = ({ navigation }) => {
         error={!!password.error}
         errorText={password.error}
         secureTextEntry
+        autoCapitalize="none"
       />
 
       <View style={styles.forgotPassword}>
@@ -75,6 +99,8 @@ const LoginScreen = ({ navigation }) => {
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
+
+       <Toast message={error} onDismiss={() => setError("")} />
     </Background>
   );
 };

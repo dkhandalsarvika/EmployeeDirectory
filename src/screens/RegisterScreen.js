@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard } from 'react-native';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -12,13 +12,19 @@ import {
   passwordValidator,
   nameValidator,
 } from '../core/utils';
+import { signInUser } from "../api/auth-api";
+import Toast from "../components/Toast";
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const _onSignUpPressed = () => {
+  const _onSignUpPressed = async () => {
+    if (loading) return;
+
     const nameError = nameValidator(name.value);
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
@@ -30,7 +36,24 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
+    setLoading(true);
+
+    const response = await signInUser({
+      name: name.value,
+      email: email.value,
+      password: password.value
+    });
+
+    if (response.error) {
+      setError(response.error);
+      Keyboard.dismiss();
+    }
+
+    setLoading(false);
+
+    // navigation.navigate('Dashboard');
+    Keyboard.dismiss();
+    
   };
 
   return (
@@ -71,9 +94,11 @@ const RegisterScreen = ({ navigation }) => {
         error={!!password.error}
         errorText={password.error}
         secureTextEntry
+        autoCapitalize="none"
       />
 
       <Button
+        loading={loading}
         title="Sign Up"
         onPress={_onSignUpPressed}
         style={styles.button}
@@ -85,6 +110,8 @@ const RegisterScreen = ({ navigation }) => {
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>
+
+      <Toast message={error} onDismiss={() => setError("")} />
     </Background>
   );
 };
