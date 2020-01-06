@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "EmployeeDirectory.app"
-               BlueprintName = "EmployeeDirectory"
-               ReferencedContainer = "container:EmployeeDirectory.xcodeproj">
+               BuildableName = "SarvikaED.app"
+               BlueprintName = "SarvikaED"
+               ReferencedContainer = "container:SarvikaED.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "EmployeeDirectoryTests.xctest"
-               BlueprintName = "EmployeeDirectoryTests"
-               ReferencedContainer = "container:EmployeeDirectory.xcodeproj">
+               BuildableName = "SarvikaEDTests.xctest"
+               BlueprintName = "SarvikaEDTests"
+               ReferencedContainer = "container:SarvikaED.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "EmployeeDirectoryTests.xctest"
-               BlueprintName = "EmployeeDirectoryTests"
-               ReferencedContainer = "container:EmployeeDirectory.xcodeproj">
+               BuildableName = "SarvikaEDTests.xctest"
+               BlueprintName = "SarvikaEDTests"
+               ReferencedContainer = "container:SarvikaED.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "EmployeeDirectory.app"
-            BlueprintName = "EmployeeDirectory"
-            ReferencedContainer = "container:EmployeeDirectory.xcodeproj">
+            BuildableName = "SarvikaED.app"
+            BlueprintName = "SarvikaED"
+            ReferencedContainer = "container:SarvikaED.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "EmployeeDirectory.app"
-            BlueprintName = "EmployeeDirectory"
-            ReferencedContainer = "container:EmployeeDirectory.xcodeproj">
+            BuildableName = "SarvikaED.app"
+            BlueprintName = "SarvikaED"
+            ReferencedContainer = "container:SarvikaED.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "EmployeeDirectory.app"
-            BlueprintName = "EmployeeDirectory"
-            ReferencedContainer = "container:EmployeeDirectory.xcodeproj">
+            BuildableName = "SarvikaED.app"
+            BlueprintName = "SarvikaED"
+            ReferencedContainer = "container:SarvikaED.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

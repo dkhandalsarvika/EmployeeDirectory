@@ -1,4 +1,4 @@
-package com.employeedirectory;
+package com.sarvika.employeedirectory;
 
 import android.app.Application;
 import android.content.Context;

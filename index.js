@@ -6,9 +6,9 @@
 
 // import {AppRegistry} from 'react-native';
  
-// import EmployeeDirectoryApp from './app/EmployeeDirectoryApp';
+// import SarvikaEDApp from './app/SarvikaEDApp';
  
-// AppRegistry.registerComponent('EmployeeDirectory', () => EmployeeDirectoryApp);
+// AppRegistry.registerComponent('SarvikaED', () => SarvikaEDApp);
 
 import {AppRegistry} from 'react-native';
 import App from './App';
