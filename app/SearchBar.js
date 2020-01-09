@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#C9C9CE',
+        marginTop: 10
     },
     input: {
         height: 40,

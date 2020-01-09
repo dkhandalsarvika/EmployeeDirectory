@@ -108,7 +108,25 @@ export default class EmployeeDirectoryApp extends Component {
         return (
             <>
             {this.hideSplash()}
-            {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
+            <View
+              //To set the background color in IOS Status Bar also
+              style={{
+                backgroundColor: '#1B2732',
+                height: Platform.OS === 'ios' ? 40 : StatusBar.currentHeight,
+              }}>
+              <StatusBar
+                barStyle="light-content"
+                // dark-content, light-content and default
+                hidden={false}
+                //To hide statusBar
+                backgroundColor="#00BCD4"
+                //Background color of statusBar
+                translucent={false}
+                //allowing light, but not detailed shapes
+                networkActivityIndicatorVisible={true}
+          />
+        </View>
+            
             <Navigator
                 initialRoute={{name: 'employee-list', title: 'Sarvika Employee List'}}
                 renderScene={this.renderScene}
@@ -121,7 +139,7 @@ export default class EmployeeDirectoryApp extends Component {
                                 } else {
                                     return (
                                         <TouchableOpacity onPress={() => navigator.pop()}>
-                                            <Image source={require('./assets/back.png')} style={styles.backButton} />
+                                            <Image source={require('./assets/back.png') } style={styles.backButton} />
                                         </TouchableOpacity>
                                     );
                                 }
@@ -129,7 +147,7 @@ export default class EmployeeDirectoryApp extends Component {
                             RightButton: (route, navigator, index, navState) => {
 
                                 return null;
-                                // (
+                                /// (
                                 //         <TouchableOpacity onPress={this.onPressLogout}>
                                 //             <Image source={require('./assets/signout.png')} style={styles.logOut} />
                                 //         </TouchableOpacity>
@@ -153,17 +171,19 @@ export default class EmployeeDirectoryApp extends Component {
 const styles = StyleSheet.create({
     navBar: {
         backgroundColor: '#00B386',
-        height: 50
+        height: 60
     },
     backButton: {
-        marginTop: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
         marginLeft: 12,
-        height: 24,
-        width: 24
+        height: 30,
+        width: 30,
+        backgroundColor: '#1B2732',
+
+        borderRadius: 15,
     },
     title: {
-        marginTop: 8,
-        padding: 8,
         fontSize: 22,
         fontWeight: 'bold',
         color: '#FFFFFF'

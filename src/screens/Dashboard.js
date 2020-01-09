@@ -32,6 +32,12 @@ const Dashboard = ({ navigation }) => (
      <Button
        title="Logout"
        bordered
+        style={{
+            marginLeft: 40,
+            marginRight: 40,
+            marginBottom: 25,
+            width: 290
+          }}
        onPress={() => logoutUser()}
        //onPress={(this != null && this != undefined) ? this.onPressLogout : () => navigation.navigate('HomeScreen')} //() => navigation.navigate('HomeScreen')
      />

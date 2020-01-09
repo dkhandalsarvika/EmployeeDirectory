@@ -65,7 +65,7 @@ export default class EmployeeDetails extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 50,
+        marginTop: 60,
         backgroundColor: '#1B2732',
         flex: 1
     },
