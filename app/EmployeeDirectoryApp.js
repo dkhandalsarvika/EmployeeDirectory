@@ -112,14 +112,14 @@ export default class EmployeeDirectoryApp extends Component {
               //To set the background color in IOS Status Bar also
               style={{
                 backgroundColor: '#1B2732',
-                height: Platform.OS === 'ios' ? 40 : StatusBar.currentHeight,
+                height: Platform.OS === 'ios' ? 40 : 0,//StatusBar.currentHeight
               }}>
               <StatusBar
                 barStyle="light-content"
                 // dark-content, light-content and default
                 hidden={false}
                 //To hide statusBar
-                backgroundColor="#00BCD4"
+                backgroundColor="#1B2732"
                 //Background color of statusBar
                 translucent={false}
                 //allowing light, but not detailed shapes
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginLeft: 12,
+        marginTop: 8,
         height: 30,
         width: 30,
         backgroundColor: '#1B2732',
