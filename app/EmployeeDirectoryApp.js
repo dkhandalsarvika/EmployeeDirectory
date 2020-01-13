@@ -5,6 +5,9 @@ import EmployeeList from './EmployeeList';
 import EmployeeDetails from './EmployeeDetails';
 import SplashScreen from 'react-native-splash-screen'
 import { logoutUser } from "../src/api/auth-api";
+import DeviceInfo from 'react-native-device-info';
+let appVersion = DeviceInfo.getVersion();
+
 // import firebase from "firebase/app";
 // import "firebase/auth";
 // import RNRestart from 'react-native-restart';
@@ -135,7 +138,7 @@ export default class EmployeeDirectoryApp extends Component {
                         routeMapper={{
                             LeftButton: (route, navigator, index, navState) => {
                                 if (route.name === 'employee-list') {
-                                    return null;
+                                    return (<Text style={styles.titleVersion}>v{appVersion}</Text>);
                                 } else {
                                     return (
                                         <TouchableOpacity onPress={() => navigator.pop()}>
@@ -174,20 +177,24 @@ const styles = StyleSheet.create({
         height: 60
     },
     backButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
         marginLeft: 12,
-        marginTop: 8,
+        marginTop: 5,
         height: 30,
         width: 30,
         backgroundColor: '#1B2732',
-
-        borderRadius: 15,
+        borderRadius: 15
     },
     title: {
         fontSize: 22,
         fontWeight: 'bold',
         color: '#FFFFFF'
+    },
+    titleVersion: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+        marginLeft: 8,
+        marginTop: 6
     },
     logOut: {
         marginTop: 10,
