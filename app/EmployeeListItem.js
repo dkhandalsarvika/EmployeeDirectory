@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableHighlight, StyleSheet } from 'react-native';
+import FastImage from 'react-native-fast-image'
 
 export default class EmployeeListItem extends Component {
 
@@ -11,7 +12,7 @@ export default class EmployeeListItem extends Component {
         return (
             <TouchableHighlight onPress={this.showDetails.bind(this)} underlayColor={'#EEEEEE'}>
                 <View style={styles.container}>
-                    <Image source={{uri: this.props.data.picture}} style={styles.picture} />
+                <FastImage source={{uri: this.props.data.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover}/>
                     <View>
                         <Text style={styles.empNameText}>{this.props.data.firstName} {this.props.data.lastName}</Text>
                         <Text style={styles.title}>{this.props.data.title}</Text>

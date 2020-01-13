@@ -4,6 +4,7 @@ import ListView from 'deprecated-react-native-listview';
 import ActionBar from './ActionBar';
 import EmployeeListItem from './EmployeeListItem';
 import * as employeeService from './services/employee-service-mock';
+import FastImage from 'react-native-fast-image'
 
 export default class EmployeeDetails extends Component {
 
@@ -28,7 +29,7 @@ export default class EmployeeDetails extends Component {
             let manager;
             if (employee.manager) {
                 manager = <TouchableOpacity style={styles.manager} onPress={this.openManager.bind(this)}>
-                            <Image source={{uri: employee.manager.picture}} style={styles.smallPicture} />
+                            <FastImage source={{uri: employee.manager.picture,priority: FastImage.priority.normal}} style={styles.smallPicture} resizeMode={FastImage.resizeMode.cover}/>
                             <Text style={styles.blackText}>{employee.manager.firstName} {employee.manager.lastName}</Text>
                             <Text style={styles.lightText}>{employee.manager.title}</Text>
                           </TouchableOpacity>;
@@ -49,7 +50,7 @@ export default class EmployeeDetails extends Component {
                 <View style={styles.container}>
                     <View style={styles.header}>
                         {manager}
-                        <Image source={{uri: employee.picture}} style={styles.picture} />
+                        <FastImage source={{uri: employee.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover}/>
                         <Text style={styles.bigText}>{employee.firstName} {employee.lastName}</Text>
                         <Text style={[styles.mediumText, styles.lightText]}>{employee.title}</Text>
                         <ActionBar phone={employee.phone} ePhone={employee.mobilePhone} email={employee.email} />
