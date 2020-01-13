@@ -194,7 +194,6 @@
 				355DBB41EA9DF99A4E3EFE0E /* Pods-SarvikaEDTests.debug.xcconfig */,
 				B6AAB3DCD19A3EBBC675D3D3 /* Pods-SarvikaEDTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -684,7 +683,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sarvika.employeedirectory;
 				PRODUCT_NAME = SarvikaED;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -703,7 +702,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sarvika.employeedirectory;
 				PRODUCT_NAME = SarvikaED;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
