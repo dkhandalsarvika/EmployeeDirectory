@@ -11,8 +11,11 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
+@import Firebase;
 
 @implementation AppDelegate
+
+  NSString *filePath;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -29,6 +32,28 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [RNSplashScreen show];
+//  [FIRApp configure];
+
+  #ifdef DEBUG
+    NSLog(@"[FIREBASE] Development mode.");
+    filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist" inDirectory:@"Debug"];
+  #else
+    NSLog(@"[FIREBASE] Production mode.");
+    filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist" inDirectory:@"Release"];
+  #endif
+  
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+  if ([fileManager fileExistsAtPath:filePath]){
+    FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
+    [FIRApp configureWithOptions:options];
+  }else{
+    #ifdef DEBUG
+      NSLog(@"[FIREBASE] GoogleService-Info file not found at path of Debug.");
+    #else
+      NSLog(@"[FIREBASE] GoogleService-Info file not found at path of Release");
+    #endif
+  }
+
   return YES;
 }
 

@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">SarvikaED</string>
+    <!-- <string name="app_name">SarvikaED</string> -->
+    <string name="app_name_release">SarvikaED</string>
+	<string name="app_name_debug">SarvikaED Beta</string>
 </resources>
