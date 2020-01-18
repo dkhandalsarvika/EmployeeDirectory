@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image'
 export default class EmployeeListItem extends Component {
 
     showDetails() {
-        this.props.navigator.push({name: 'details', data: this.props.data});
+        this.props.navigator.push({name: 'details', data: this.props.data, title: this.props.data.firstName + " " + this.props.data.lastName});
     }
 
     render() {

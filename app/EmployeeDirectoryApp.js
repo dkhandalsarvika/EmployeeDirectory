@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, Image, StyleSheet,StatusBar,Platform,Alert,View,
 import {Navigator} from 'react-native-deprecated-custom-components';
 import EmployeeList from './EmployeeList';
 import EmployeeDetails from './EmployeeDetails';
-import SplashScreen from 'react-native-splash-screen'
+// import SplashScreen from 'react-native-splash-screen'
 import { logoutUser } from "../src/api/auth-api";
 import DeviceInfo from 'react-native-device-info';
 let appVersion = DeviceInfo.getVersion();
@@ -66,12 +66,13 @@ export default class EmployeeDirectoryApp extends Component {
                     //function to make two option alert
             Alert.alert(
               //title
-              'LOGOUT',
+              'LOGOUT/EXIT',
               //body
-              'Do you want to logout ?',
+              'Do you want to logout or exit ?',
               [
-                {text: 'Yes', onPress: () => logoutUser()},
-                {text: 'No', onPress: () => console.log('No Pressed for logout'), style: 'cancel'},
+                {text: 'Exit', onPress: () => BackHandler.exitApp()},
+                {text: 'Logout', onPress: () => logoutUser()},
+                {text: 'No', onPress: () => console.log('No Pressed of logout/exit'), style: 'cancel'},
               ],
               { cancelable: false }
               //clicking out side of alert will not cancel
@@ -80,13 +81,13 @@ export default class EmployeeDirectoryApp extends Component {
         return true;
     }
 
-     hideSplash(){   
-        console.log("hideSplash called");
-        // useEffect(()=>{
-            SplashScreen.hide();
-        // },[]);
+    //  hideSplash(){   
+    //     console.log("hideSplash called");
+    //     // useEffect(()=>{
+    //         SplashScreen.hide();
+    //     // },[]);
 
-    }
+    // }
 
     renderScene(route, navigator) {
         switch (route.name) {
@@ -107,10 +108,12 @@ export default class EmployeeDirectoryApp extends Component {
 //     // Alert.alert('onPressLogout called');
 //   }
 
+// {this.hideSplash()}
+
     render() {
         return (
             <>
-            {this.hideSplash()}
+            
             <View
               //To set the background color in IOS Status Bar also
               style={{
