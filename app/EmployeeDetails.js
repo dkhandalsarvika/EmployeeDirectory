@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,BackHandler } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,BackHandler } from 'react-native';
 import ListView from 'deprecated-react-native-listview';
 import ActionBar from './ActionBar';
 import EmployeeListItem from './EmployeeListItem';
@@ -19,14 +19,16 @@ export default class EmployeeDetails extends Component {
             });
         });
 
-        this.onBackButtonPressed1 = (() => {
-            console.log("constructor onBackButtonPressed1 called");
-          if (this.navigator && this.navigator.getCurrentRoutes().length > 1){
-                this.navigator.pop();
-                return true; //avoid closing the app
-              }
-              return false; //close the app
-            }).bind(this) //don't forget bind this, you will remember anyway.
+            if (Platform.OS === 'android'){
+                this.onBackButtonPressed1 = (() => {
+                console.log("constructor onBackButtonPressed1 called");
+                if (this.navigator && this.navigator.getCurrentRoutes().length > 1){
+                    this.navigator.pop();
+                    return true; //avoid closing the app
+                }
+                    return false; //close the app
+                }).bind(this) //don't forget bind this, you will remember anyway.
+            }  
         }
 
     openManager() {
@@ -34,17 +36,15 @@ export default class EmployeeDetails extends Component {
     }
 
     componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed1);
+        if (Platform.OS === 'android'){
+            BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed1);
+        }
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed1);
-    }
-
-    onBackButtonPressed1() {
-        console.log("onBackButtonPressed called while EmployeeDetails");
-        //this.props.navigator.pop();
-        return true;
+        if (Platform.OS === 'android'){
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed1);
+        }
     }
 
     render() {

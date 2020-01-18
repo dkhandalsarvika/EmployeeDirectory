@@ -54,11 +54,15 @@ export default class EmployeeDirectoryApp extends Component {
     // }  
 
     componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
+        if (Platform.OS === 'android'){
+            BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed);
+        }
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+        if (Platform.OS === 'android'){
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+        }
     }
 
     onBackButtonPressed() {
