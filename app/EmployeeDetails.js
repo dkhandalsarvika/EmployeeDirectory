@@ -10,7 +10,6 @@ export default class EmployeeDetails extends Component {
 
     constructor(props) {
         super(props);
-        this.navigator = this.props.navigator;
         this.state = {dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})};
         employeeService.findById(this.props.data.id).then(employee => {
             this.setState({
@@ -22,8 +21,8 @@ export default class EmployeeDetails extends Component {
             if (Platform.OS === 'android'){
                 this.onBackButtonPressed1 = (() => {
                 console.log("constructor onBackButtonPressed1 called");
-                if (this.navigator && this.navigator.getCurrentRoutes().length > 1){
-                    this.navigator.pop();
+                if (this.props.navigator && this.props.navigator.getCurrentRoutes().length > 1){
+                    this.props.navigator.pop();
                     return true; //avoid closing the app
                 }
                     return false; //close the app

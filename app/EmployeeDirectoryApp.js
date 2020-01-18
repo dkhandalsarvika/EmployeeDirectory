@@ -7,6 +7,7 @@ import EmployeeDetails from './EmployeeDetails';
 import { logoutUser } from "../src/api/auth-api";
 import DeviceInfo from 'react-native-device-info';
 let appVersion = DeviceInfo.getVersion();
+let navigatorEDA = null;
 
 // import firebase from "firebase/app";
 // import "firebase/auth";
@@ -47,10 +48,10 @@ export default class EmployeeDirectoryApp extends Component {
     // constructor(props){  
     //     super(props);  
 
-    //     this.state = {  
-    //         data: 'www.javatpoint.com'  
-    //     }  
-    //     this.handleEvent = this.handleEvent.bind(this);  
+    //     // this.state = {  
+    //     //     data: 'www.javatpoint.com'  
+    //     // }  
+    //     // this.handleEvent = this.handleEvent.bind(this);  
     // }  
 
     componentDidMount() {
@@ -67,7 +68,10 @@ export default class EmployeeDirectoryApp extends Component {
 
     onBackButtonPressed() {
         console.log("onBackButtonPressed called while logout");
-                    //function to make two option alert
+
+        console.log(navigatorEDA.getCurrentRoutes()[0].name);
+        if(navigatorEDA.getCurrentRoutes()[0].name === 'employee-list'){
+        //function to make three option alert
             Alert.alert(
               //title
               'LOGOUT/EXIT',
@@ -82,7 +86,11 @@ export default class EmployeeDirectoryApp extends Component {
               //clicking out side of alert will not cancel
             );
         
-        return true;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     //  hideSplash(){   
@@ -94,6 +102,7 @@ export default class EmployeeDirectoryApp extends Component {
     // }
 
     renderScene(route, navigator) {
+        navigatorEDA = navigator;
         switch (route.name) {
             case 'employee-list':
                 return <EmployeeList navigator={navigator} />
@@ -102,15 +111,6 @@ export default class EmployeeDirectoryApp extends Component {
         }
     }
 
-//     onPressLogout = () => {
-//     console.log('onPressLogout called')
-//     firebase.auth().signOut();
-//     // Immediately reload the React Native Bundle
-//     RNRestart.Restart();
-//     console.log(RNRestart)
-//     // Alert.alert(RNRestart);
-//     // Alert.alert('onPressLogout called');
-//   }
 
 // {this.hideSplash()}
 
@@ -155,15 +155,16 @@ export default class EmployeeDirectoryApp extends Component {
                                 }
                             },
                             RightButton: (route, navigator, index, navState) => {
-
                                 return null;
-                                /// (
-                                //         <TouchableOpacity onPress={this.onPressLogout}>
+                                /// if (route.name === 'employee-list') {
+                                //     return (
+                                //         <TouchableOpacity onPress={this.onBackButtonPressed}>
                                 //             <Image source={require('./assets/signout.png')} style={styles.logOut} />
                                 //         </TouchableOpacity>
                                 //     );
-
-                                ///return <Button style={styles.logOut} title="Logout" onPress={() => this._saveDetails()} />;
+                                // } else {
+                                //     return null;
+                                // }
                             },
                             Title: (route, navigator, index, navState) => {
                                 return (<Text style={styles.title}>{route.title}</Text>);
