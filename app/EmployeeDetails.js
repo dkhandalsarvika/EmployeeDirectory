@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,Back
 import ListView from 'deprecated-react-native-listview';
 import ActionBar from './ActionBar';
 import EmployeeListItem from './EmployeeListItem';
-import * as employeeService from './services/employee-service-mock';
+import * as employeeService from './services/employee-service-rest';
 import FastImage from 'react-native-fast-image'
 
 export default class EmployeeDetails extends Component {

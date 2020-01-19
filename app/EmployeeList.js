@@ -4,7 +4,7 @@ import {View, StyleSheet,FlatList,Text,Alert} from 'react-native';
 import ListView from 'deprecated-react-native-listview';
 import SearchBar from './SearchBar';
 import EmployeeListItem from './EmployeeListItem';
-import * as employeeService from './services/employee-service-mock';
+import * as employeeService from './services/employee-service-rest';
 
 // export default class EmployeeList extends Component {  
 
