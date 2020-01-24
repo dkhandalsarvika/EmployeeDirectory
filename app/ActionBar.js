@@ -15,7 +15,7 @@ export default class ActionBar extends Component {
               //title
               'Call on personal number',
               //body
-              'Do you want to call ?',
+              'Do you want to call ' + this.props.phone +  '?',
               [
                 {text: 'Yes', onPress: () => this.openURL('tel:' + this.props.phone)},
                 {text: 'No', onPress: () => console.log('No Pressed personal number'), style: 'cancel'},
@@ -37,7 +37,7 @@ export default class ActionBar extends Component {
               //title
               'Call on emergency number',
               //body
-              'Do you want to call ?',
+              'Do you want to call ' + this.props.ePhone +  '?',
               [
                 {text: 'Yes', onPress: () => this.openURL('tel:' + this.props.ePhone)},
                 {text: 'No', onPress: () => console.log('No Pressed emergency number'), style: 'cancel'},
