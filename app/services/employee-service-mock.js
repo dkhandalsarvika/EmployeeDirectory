@@ -90,7 +90,7 @@ let employees = [ {
   "managerName" : "Rakesh Chaudhary",
   "mobilePhone" : "7587529049",
   "phone" : "8839251321",
-  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_081.jpg?alt=media&token=299e1633-e1cf-4773-9964-92735692a260",
+  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_081.jpg?alt=media&token=424411a9-f32d-4be0-bbd1-659e9f9d95fe",
   "title" : "Lead Cloud Infra"
 },{
   "email" : "anmol.jain@sarvika.com",
@@ -306,7 +306,7 @@ let employees = [ {
   "managerName" : "Jyotsana Rankawat",
   "mobilePhone" : "8826790158",
   "phone" : "7023777764",
-  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_078.jpg?alt=media&token=5e0b34fb-5d78-4622-94ad-c7c1a39e6f86",
+  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_078.jpg?alt=media&token=583ef2f1-d370-49e7-84c5-5e2182e6b8be",
   "title" : "Business Analyst"
 },{
   "email" : "agarg@sarvika.com",
@@ -378,7 +378,7 @@ let employees = [ {
   "managerName" : "Jyotsana Rankawat",
   "mobilePhone" : "9782974100",
   "phone" : "7665731853",
-  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_077.jpg?alt=media&token=a8753dbc-0e0c-459f-a621-3d145c61f2b9",
+  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_077.jpg?alt=media&token=015e8133-a9c2-4937-8ac6-a633f354c9d4",
   "title" : "Quality Analyst"
 },{
   "email" : "apoorva.joshi@sarvika.com",
@@ -582,7 +582,7 @@ let employees = [ {
   "managerName" : "Jaswant Chaudhary",
   "mobilePhone" : "9929192974",
   "phone" : "8386050752",
-  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_076.jpg?alt=media&token=cc814d16-1b86-4c91-8294-64dc770f402c",
+  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_076.jpg?alt=media&token=b88a8394-5543-41fa-8a26-649c071af064",
   "title" : "E-Commerce Specialist"
 },{
   "email" : "pooja.swami@sarvika.com",
@@ -594,7 +594,7 @@ let employees = [ {
   "managerName" : "Saumya Agarwal",
   "mobilePhone" : "9571469527",
   "phone" : "7742829602",
-  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_080.jpg?alt=media&token=cc814d16-1b86-4c91-8294-64dc770f402c",
+  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_080.jpg?alt=media&token=f17f73f1-74b4-4b5c-bc30-edc374490ddc",
   "title" : "E-Commerce Specialist"
 },{
   "email" : "gulabsen49@gmail.com",
