@@ -73,7 +73,7 @@ export default class EmployeeDetails extends Component {
                 <View style={styles.container}>
                     <View style={styles.header}>
                         {manager}
-                        <FastImage source={{uri: employee.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover}/>
+                        <FastImage source={{uri: employee.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover} />
                         <Text style={styles.bigText}>{employee.firstName} {employee.lastName}</Text>
                         <Text style={[styles.mediumText, styles.lightText]}>{employee.title}</Text>
                         <ActionBar phone={employee.phone} ePhone={employee.mobilePhone} email={employee.email} />
