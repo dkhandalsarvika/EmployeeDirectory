@@ -131,6 +131,7 @@ export default class EmployeeList extends Component {
         return (
             <ListView style={styles.container}
                       dataSource={this.state.dataSource}
+                      stickyHeaderIndices={[0]}
                       enableEmptySections={true}
                       renderRow={(data) => <EmployeeListItem navigator={this.props.navigator} data={data} />}
                       renderSeparator={ (sectionId, rowId) => <View key={rowId} style={styles.separator} />}
