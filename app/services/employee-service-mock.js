@@ -306,7 +306,7 @@ let employees = [ {
   "managerName" : "Jyotsana Rankawat",
   "mobilePhone" : "8826790158",
   "phone" : "7023777764",
-  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_047.jpg?alt=media&token=5e0b34fb-5d78-4622-94ad-c7c1a39e6f86",
+  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_078.jpg?alt=media&token=5e0b34fb-5d78-4622-94ad-c7c1a39e6f86",
   "title" : "Business Analyst"
 },{
   "email" : "agarg@sarvika.com",
