@@ -78,7 +78,7 @@ let employees = [ {
   "managerName" : "Rakesh Chaudhary",
   "mobilePhone" : "9784173299",
   "phone" : "9352619953",
-  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_075.jpg?alt=media&token=187176b4-6db6-4b64-b932-a23e1c0ad131",
+  "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_075.jpg?alt=media&token=2d1fd968-b5c5-46ec-a36f-1936491e08fa",
   "title" : "Sr. Application Developer"
 },{
   "email" : "somesh.baghel@sarvika.com",

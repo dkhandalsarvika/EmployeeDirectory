@@ -3,13 +3,28 @@ import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,Back
 import ListView from 'deprecated-react-native-listview';
 import ActionBar from './ActionBar';
 import EmployeeListItem from './EmployeeListItem';
-import * as employeeService from './services/employee-service-rest';
 import FastImage from 'react-native-fast-image'
+import * as employeeServiceRest from './services/employee-service-rest';
+import * as employeeServiceMock from './services/employee-service-mock';
+import { CheckConnectivity } from "./util/NetworkInfo";
+var employeeService;
 
 export default class EmployeeDetails extends Component {
 
+
+
     constructor(props) {
         super(props);
+
+        console.log(CheckConnectivity._55);
+
+        if(CheckConnectivity._55){
+            console.log("DKS online EmployeeList");
+            employeeService = employeeServiceRest;
+        }else{
+            console.log("DKS not online EmployeeList");
+            employeeService = employeeServiceMock;
+        }
         this.state = {dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})};
         employeeService.findById(this.props.data.id).then(employee => {
             this.setState({

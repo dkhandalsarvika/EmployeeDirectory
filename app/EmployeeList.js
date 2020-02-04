@@ -4,7 +4,10 @@ import {View, StyleSheet,FlatList,Text,Alert} from 'react-native';
 import ListView from 'deprecated-react-native-listview';
 import SearchBar from './SearchBar';
 import EmployeeListItem from './EmployeeListItem';
-import * as employeeService from './services/employee-service-rest';
+import * as employeeServiceRest from './services/employee-service-rest';
+import * as employeeServiceMock from './services/employee-service-mock';
+import { CheckConnectivity } from "./util/NetworkInfo";
+var employeeService;
 
 // export default class EmployeeList extends Component {  
 
@@ -106,8 +109,19 @@ import * as employeeService from './services/employee-service-rest';
 export default class EmployeeList extends Component {
  
 
+
     constructor() {
-        super();
+        super();        
+
+        console.log(CheckConnectivity._55);
+
+        if(CheckConnectivity._55){
+            console.log("DKS online EmployeeList");
+            employeeService = employeeServiceRest;
+        }else{
+            console.log("DKS not online EmployeeList");
+            employeeService = employeeServiceMock;
+        }
 
         this.state = {
                         dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
@@ -128,26 +142,55 @@ export default class EmployeeList extends Component {
     }
 
     render() {
-        return (
-            <ListView style={styles.container}
-                      dataSource={this.state.dataSource}
-                      stickyHeaderIndices={[0]}
-                      enableEmptySections={true}
-                      renderRow={(data) => <EmployeeListItem navigator={this.props.navigator} data={data} />}
-                      renderSeparator={ (sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-                      renderHeader={() => <SearchBar onChange={this.search.bind(this)} placeholder="Type Here..." lightTheme round />}
-            />
+        if(!CheckConnectivity._55){
+            return (
+            <View style={styles.viewDataLocal}>
+              <Text style={styles.whiteText}>Showing details from local</Text>
+            </View>,
+                <ListView style={styles.container}
+                          dataSource={this.state.dataSource}
+                          stickyHeaderIndices={[0]}
+                          enableEmptySections={true}
+                          renderRow={(data) => <EmployeeListItem navigator={this.props.navigator} data={data} />}
+                          renderSeparator={ (sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+                          renderHeader={() => <SearchBar onChange={this.search.bind(this)} />}
+                />
         );
+        }else{
+        return (
+
+                <ListView style={styles.container}
+                          dataSource={this.state.dataSource}
+                          stickyHeaderIndices={[0]}
+                          enableEmptySections={true}
+                          renderRow={(data) => <EmployeeListItem navigator={this.props.navigator} data={data} />}
+                          renderSeparator={ (sectionId, rowId) => <View key={rowId} style={styles.separator} />}
+                          renderHeader={() => <SearchBar onChange={this.search.bind(this)} />}
+                />
+        );
+    }
     }
 }
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#1B2732',
-        marginTop: 50
+        marginTop: CheckConnectivity._55 ? 50 : 100
     },
     separator: {
         height: StyleSheet.hairlineWidth,
-        backgroundColor: '#AAAAAA',
+        backgroundColor: '#AAAAAA'
+    },
+    viewDataLocal: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: CheckConnectivity._55 ? 0 : 60,
+        height: CheckConnectivity._55 ? 0 : 40,
+        backgroundColor: '#AAAAAA'
+
+    },
+    whiteText: {
+        color: '#FFFFFF',
+        fontSize: 20
     }
 });
