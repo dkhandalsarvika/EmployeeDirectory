@@ -35,10 +35,10 @@ export default class EmployeeList extends Component {
         }
 
         if(CheckConnectivity._55){
-            console.log("DKS online EmployeeList");
+            console.log("Device online EmployeeList");
             employeeService = employeeServiceRest;
         }else{
-            console.log("DKS not online EmployeeList");
+            console.log("Device not online EmployeeList");
             employeeService = employeeServiceMock;
         }
 

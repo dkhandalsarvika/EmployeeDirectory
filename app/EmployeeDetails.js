@@ -19,10 +19,10 @@ export default class EmployeeDetails extends Component {
         console.log(CheckConnectivity._55);
 
         if(CheckConnectivity._55){
-            console.log("DKS online EmployeeList");
+            console.log("Device online EmployeeList");
             employeeService = employeeServiceRest;
         }else{
-            console.log("DKS not online EmployeeList");
+            console.log("Device not online EmployeeList");
             employeeService = employeeServiceMock;
         }
         this.state = {dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})};
