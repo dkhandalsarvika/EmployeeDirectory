@@ -601,7 +601,7 @@ let employees = [ {
   "empId" : "IT-029",
   "firstName" : "Gulab",
   "id" : 51,
-  "lastName" : "Chand",
+  "lastName" : "",
   "managerId" : 1,
   "managerName" : "Rakesh Chaudhary",
   "mobilePhone" : "9784734748",
