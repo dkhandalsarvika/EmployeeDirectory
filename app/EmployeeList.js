@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet,FlatList,Text,Alert} from 'react-native';
+import {View, StyleSheet,FlatList,Text,Alert,ActivityIndicator,RefreshControl} from 'react-native';
 //import { List, ListItem, Avatar } from "react-native-elements";
 import ListView from 'deprecated-react-native-listview';
 import SearchBar from './SearchBar';
@@ -20,6 +20,11 @@ export default class EmployeeList extends Component {
     }
 
     serviceCall(){
+        this.state = {
+          isLoading: true,
+          refreshing: false
+        }
+
         if(!CheckConnectivity._55){
              Alert.alert(
               //title
@@ -47,10 +52,22 @@ export default class EmployeeList extends Component {
                     };
         employeeService.findAll().then(employees => {
             this.setState({
+                isLoading: false,
+                refreshing:false,
                 dataSource: this.state.dataSource.cloneWithRows(employees)
             });
         });
     }
+
+    onRefresh() {
+ 
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+     
+        this.setState({dataSource : ds.cloneWithRows([ ])})
+     
+        this.serviceCall();
+      
+      }
 
     search(key) {
         employeeService.findByName(key).then(employees => {
@@ -61,6 +78,13 @@ export default class EmployeeList extends Component {
     }
 
     render() {
+          if (this.state.isLoading) {
+              return (
+                <View style={{flex: 1, paddingTop: 100}}>
+                  <ActivityIndicator />
+                </View>
+              );
+        }
         return (
                 <ListView style={styles.container}
                           dataSource={this.state.dataSource}
@@ -69,6 +93,13 @@ export default class EmployeeList extends Component {
                           renderRow={(data) => <EmployeeListItem navigator={this.props.navigator} data={data} />}
                           renderSeparator={ (sectionId, rowId) => <View key={rowId} style={styles.separator} />}
                           renderHeader={() => <SearchBar onChange={this.search.bind(this)} />}
+
+                    refreshControl={
+                        <RefreshControl
+                          refreshing={this.state.refreshing}
+                          onRefresh={this.onRefresh.bind(this)}
+                        />
+                    }
                 />
         );
     }
