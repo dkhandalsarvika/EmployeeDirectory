@@ -12,10 +12,13 @@
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
 @import Firebase;
+//#import <Crashlytics/Crashlytics.h>
+#import <FirebaseCrashlytics.h>
 
 @implementation AppDelegate
 
   NSString *filePath;
+  NSString *appName;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -33,6 +36,18 @@
   [self.window makeKeyAndVisible];
   [RNSplashScreen show];
 //  [FIRApp configure];
+  
+  
+  #ifdef DEBUG
+    appName = @"SarvikaED Beta";
+  #else
+    appName = @"SarvikaED";
+  #endif
+  [FIRAnalytics logEventWithName:kFIREventSelectContent
+                      parameters:@{
+                                   kFIRParameterItemID:[NSString stringWithFormat:@"id-%@", appName],
+                                   kFIRParameterItemName:appName
+                                   }];
 
   #ifdef DEBUG
     NSLog(@"[FIREBASE] Development mode.");
@@ -53,6 +68,8 @@
       NSLog(@"[FIREBASE] GoogleService-Info file not found at path of Release");
     #endif
   }
+  
+  //assert(NO);
 
   return YES;
 }
