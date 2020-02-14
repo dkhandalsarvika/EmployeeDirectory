@@ -19,9 +19,10 @@
 		2DCD954D1E0B4F2C00145EB5 /* SarvikaEDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SarvikaEDTests.m */; };
 		5412181323CEE669000B26BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5412181123CEE64A000B26BB /* GoogleService-Info.plist */; };
 		5412181523CEE749000B26BB /* Debug in Resources */ = {isa = PBXBuildFile; fileRef = 5412181423CEE748000B26BB /* Debug */; };
-		5412181823CEE917000B26BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5412181723CEE917000B26BB /* GoogleService-Info.plist */; };
 		5412181923CEE917000B26BB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5412181723CEE917000B26BB /* GoogleService-Info.plist */; };
 		5412181B23CEE952000B26BB /* Release in Resources */ = {isa = PBXBuildFile; fileRef = 5412181A23CEE952000B26BB /* Release */; };
+		54A53EA023F040B70051B543 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5412181123CEE64A000B26BB /* GoogleService-Info.plist */; };
+		54A53EA123F04BA10051B543 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5412181723CEE917000B26BB /* GoogleService-Info.plist */; };
 		720E98B715FB974EED9BCEBB /* libPods-SarvikaED-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2008641F3D6F85F41F450D30 /* libPods-SarvikaED-tvOS.a */; };
 		7DEF15A64BD47592425293B8 /* libPods-SarvikaED.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9EA6F31EC171D10B3BFDA4 /* libPods-SarvikaED.a */; };
 		ACE386CF9AD649E8698B43EE /* libPods-SarvikaEDTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 419F89E61601FCC8437823C8 /* libPods-SarvikaEDTests.a */; };
@@ -259,6 +260,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				3B3B415EFB60085CB2EF336E /* [CP] Copy Pods Resources */,
+				54FF860123D486B0001AC667 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -366,10 +368,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				5412181823CEE917000B26BB /* GoogleService-Info.plist in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				5412181523CEE749000B26BB /* Debug in Resources */,
 				5412181B23CEE952000B26BB /* Release in Resources */,
+				54A53EA023F040B70051B543 /* GoogleService-Info.plist in Resources */,
+				54A53EA123F04BA10051B543 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +493,26 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SarvikaED/Pods-SarvikaED-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		54FF860123D486B0001AC667 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/${CONFIGURATION}/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 		74962243B85E71682B74D7CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
