@@ -3,6 +3,7 @@ export const emailValidator = email => {
 
   if (!email || email.length <= 0) return "Email cannot be empty.";
   if (!re.test(email)) return "Ooops! We need a valid email address.";
+  if (email.match(/sarvika.com/g) == null) return "Ooops! We need a sarvika email address.";
 
   return "";
 };
