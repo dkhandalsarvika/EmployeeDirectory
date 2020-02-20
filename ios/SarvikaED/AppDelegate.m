@@ -61,11 +61,16 @@
   if ([fileManager fileExistsAtPath:filePath]){
     FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:filePath];
     [FIRApp configureWithOptions:options];
+      #ifdef DEBUG
+          NSLog(@"[FIREBASE] GoogleService-Info file found at path- %@ of Debug.",filePath);
+      #else
+          NSLog(@"[FIREBASE] GoogleService-Info file found at path- %@ of Release",filePath);
+      #endif
   }else{
     #ifdef DEBUG
-      NSLog(@"[FIREBASE] GoogleService-Info file not found at path of Debug.");
+      NSLog(@"[FIREBASE] GoogleService-Info file not found at path- %@ of Debug.",filePath);
     #else
-      NSLog(@"[FIREBASE] GoogleService-Info file not found at path of Release");
+      NSLog(@"[FIREBASE] GoogleService-Info file not found at path- %@ of Release",filePath);
     #endif
   }
   
