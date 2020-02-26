@@ -49,6 +49,11 @@ export default class EmployeeDetails extends Component {
         this.props.navigator.push({name: 'details', data: this.state.employee.manager,title: this.state.employee.manager.firstName + " " +this.state.employee.manager.lastName});
     }
 
+    openEmployee() {
+        // this.props.navigator.push({name: 'details-employee', data: this.state.employee.manager,title: this.state.employee.manager.firstName + " " +this.state.employee.manager.lastName});
+        this.props.navigator.push({name: 'details-employee', data: this.state.employee,title: this.state.employee.firstName + " " +this.state.employee.lastName});
+    }
+
     componentDidMount() {
         if (Platform.OS === 'android'){
             BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressed1);
@@ -88,9 +93,11 @@ export default class EmployeeDetails extends Component {
                 <View style={styles.container}>
                     <View style={styles.header}>
                         {manager}
-                        <FastImage source={{uri: employee.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover} />
-                        <Text style={styles.bigText}>{employee.firstName} {employee.lastName}</Text>
-                        <Text style={[styles.mediumText, styles.lightText]}>{employee.title}</Text>
+                        <TouchableOpacity style={styles.manager} onPress={this.openEmployee.bind(this)}>
+                            <FastImage source={{uri: employee.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover} />
+                            <Text style={styles.bigText}>{employee.firstName} {employee.lastName}</Text>
+                            <Text style={[styles.mediumText, styles.lightText]}>{employee.title}</Text>
+                        </TouchableOpacity>
                         <ActionBar phone={employee.phone} ePhone={employee.mobilePhone} email={employee.email} />
                     </View>
                     {directReports}

@@ -21,7 +21,7 @@ let employees = [ {
   "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_011.jpg?alt=media&token=68f9323b-ab32-457a-9450-bfba5cff4696",
   "title" : "Manager, Client Solutions"
 },{
-  "email" : "aviral@sarvika.com ",
+  "email" : "aviral@sarvika.com",
   "empId" : "IT-039",
   "firstName" : "Aviral",
   "id" : 3,
@@ -357,7 +357,7 @@ let employees = [ {
   "picture" : "https://firebasestorage.googleapis.com/v0/b/employeedirectory-b5195.appspot.com/o/IT_056.jpg?alt=media&token=d1228ece-26b1-4d2f-83b0-a5dc2aa3b915",
   "title" : "Quality Analyst"
 },{
-  "email" : "aakarshan.sharma@sarvika.com ",
+  "email" : "aakarshan.sharma@sarvika.com",
   "empId" : "IT-072",
   "firstName" : "Aakarshan",
   "id" : 31,
