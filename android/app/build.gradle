@@ -3,6 +3,8 @@ apply plugin: 'com.google.gms.google-services'
 // Apply the Crashlytics Gradle plugin
 apply plugin: 'com.google.firebase.crashlytics'
 
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
+
 import com.android.build.OutputFile
 
 /**
