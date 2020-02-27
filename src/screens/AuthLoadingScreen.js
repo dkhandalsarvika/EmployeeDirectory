@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, AsyncStorage } from "react-native";
 import firebase from "firebase/app";
 import "firebase/auth";
 import Background from "../components/Background";
@@ -7,14 +7,27 @@ import { theme } from "../core/theme";
 import { FIREBASE_CONFIG } from "../core/config";
 
 // Initialize Firebase
-firebase.initializeApp(FIREBASE_CONFIG);
+if (!firebase.apps.length) {
+  firebase.initializeApp(FIREBASE_CONFIG);
+}
 
 const AuthLoadingScreen = ({ navigation }) => {
   firebase.auth().onAuthStateChanged(user => {
-    console.log(user);
+
     if (user) {
       // User is logged in
+      // console.log(user);
+        try {
+            AsyncStorage.setItem('user', JSON.stringify(user))
+            console.log('Successfully written user ');
+          } catch (e) {
+            // saving error
+            console.log('Error while saving user');
+            console.log(e);
+          } 
+      
       navigation.navigate("Dashboard");
+
     } else {
       // User is not logged in
       navigation.navigate("HomeScreen");

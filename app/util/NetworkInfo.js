@@ -8,7 +8,7 @@ export const CheckConnectivity = NetInfo.fetch().then(state => {
 			  console.log("Is connected?:", state.isConnected);
 			  console.log("Is isInternetReachable?:", state.isInternetReachable);
 			  if(state.isConnected && state.isInternetReachable){
-			  	return false;
+			  	return true;
 			  }else{
 			  	return false;
 			  }

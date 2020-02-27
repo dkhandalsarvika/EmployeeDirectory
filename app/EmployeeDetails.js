@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,BackHandler } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,BackHandler, Alert, AsyncStorage } from 'react-native';
 import ListView from 'deprecated-react-native-listview';
 import ActionBar from './ActionBar';
 import EmployeeListItem from './EmployeeListItem';
@@ -7,16 +7,13 @@ import FastImage from 'react-native-fast-image'
 import * as employeeServiceRest from './services/employee-service-rest';
 import * as employeeServiceMock from './services/employee-service-mock';
 import { CheckConnectivity } from "./util/NetworkInfo";
+import * as ConstantsClass from './util/Constants';
 var employeeService;
 
 export default class EmployeeDetails extends Component {
 
-
-
     constructor(props) {
         super(props);
-
-        console.log(CheckConnectivity._55);
 
         if(CheckConnectivity._55){
             console.log("Device online EmployeeList");
@@ -45,13 +42,80 @@ export default class EmployeeDetails extends Component {
             }  
         }
 
+        getData = async ()=>{
+          try {
+            console.log('Getting user from AsyncStorage');
+            let user = await AsyncStorage.getItem('user')
+            let parsedUser = JSON.parse(user); 
+            console.log(parsedUser.email);
+            console.log(this.state.employee.email)
+            if(user !== null){
+              // value previously stored
+              if(parsedUser.email === this.state.employee.email){ // || parsedUser.email === ConstantsClass.ADMIN_EMAIL
+                this.props.navigator.push({name: 'details-employee', data: this.state.employee,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
+              }
+              else if(parsedUser.email !== this.state.employee.email){
+                // console.log(this.state.employee.isAdmin);
+                var isAdmin = false;
+                if(this.state.employee.isAdmin === undefined || this.state.employee.isAdmin === null){
+                    isAdmin = false;
+                }else{
+                    isAdmin = this.state.employee.isAdmin === true ? true : false;
+                }
+
+                // if user has admin permission then will able to edit other details also
+                if(isAdmin){
+                    this.props.navigator.push({name: 'details-employee', data: this.state.employee,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
+                }else{
+                    // if another user come to edit then prompt alert message
+                   Alert.alert(
+                      //title
+                      'Edit Details',
+                      //body
+                      'You do not have privilege to edit other details.',
+                      [
+                        {text: 'OK', onPress: () => console.log('Cancelled while edit other details'), style: 'cancel'},
+                      ],
+                      { cancelable: false }
+                      //clicking out side of alert will not cancel
+                    );
+                }
+
+ 
+              }else{
+                Alert.alert(
+                  //title
+                  'Edit Details',
+                  //body
+                  'Please login again to edit your details.',
+                  [
+                    {text: 'OK', onPress: () => console.log('Cancelled while need to edit details'), style: 'cancel'},
+                  ],
+                  { cancelable: false }
+                  //clicking out side of alert will not cancel
+                );
+              }
+            }else{
+                console.log('user not found');
+            }
+          } catch(e) {
+            // error reading value
+            console.log('error reading value useremail');
+          }
+        } 
+
     openManager() {
         this.props.navigator.push({name: 'details', data: this.state.employee.manager,title: this.state.employee.manager.firstName + " " +this.state.employee.manager.lastName});
     }
 
     openEmployee() {
-        // this.props.navigator.push({name: 'details-employee', data: this.state.employee.manager,title: this.state.employee.manager.firstName + " " +this.state.employee.manager.lastName});
-        this.props.navigator.push({name: 'details-employee', data: this.state.employee,title: this.state.employee.firstName + " " +this.state.employee.lastName});
+        console.log('came into openEmployee');
+        // let userEmail = AsyncStorage.getItem('useremail')
+        // console.log(userEmail);
+        // console.log('came into openEmployee post');
+        this.getData();
+
+        
     }
 
     componentDidMount() {
