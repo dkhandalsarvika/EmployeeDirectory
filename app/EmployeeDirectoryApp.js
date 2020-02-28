@@ -4,6 +4,7 @@ import {Navigator} from 'react-native-deprecated-custom-components';
 import EmployeeList from './EmployeeList';
 import EmployeeDetails from './EmployeeDetails';
 import EmployeeDetailsEdit from './EmployeeDetailsEdit';
+import WebViewEssl from './WebViewEssl';
 // import SplashScreen from 'react-native-splash-screen'
 import { logoutUser } from "../src/api/auth-api";
 import DeviceInfo from 'react-native-device-info';
@@ -111,6 +112,8 @@ export default class EmployeeDirectoryApp extends Component {
                 return <EmployeeDetails navigator={navigator} data={route.data} />
             case 'details-employee':
                 return <EmployeeDetailsEdit navigator={navigator} data={route.data} />
+            case 'webview-essl':
+                return <WebViewEssl navigator={navigator} data={route.data} />
         }
     }
 

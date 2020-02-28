@@ -6,8 +6,9 @@ import FastImage from 'react-native-fast-image'
 import * as employeeServiceRest from './services/employee-service-rest';
 import * as employeeServiceMock from './services/employee-service-mock';
 import { CheckConnectivity } from "./util/NetworkInfo";
-import { Input } from 'react-native-elements'
+import { Input, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { theme } from '../src/core/theme';
 
 export default class EmployeeDetailsEdit extends Component {
 
@@ -48,6 +49,15 @@ export default class EmployeeDetailsEdit extends Component {
 
     validateName() {
         console.log("validateName");
+    }
+
+    updateDetails(){
+     console.log("updateDetails");   
+    }
+
+    openEsslTimeTrack(){
+     console.log("openEsslTimeTrack");   
+        this.props.navigator.push({name: 'webview-essl', data: this.state.employee, title: 'eTime Track'});        
     }
 
     render() {
@@ -97,6 +107,17 @@ export default class EmployeeDetailsEdit extends Component {
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Emergency Phone'
                         />
+                        <View style={styles.buttonContainer}>
+                            <Button onPress={this.updateDetails} buttonStyle={styles.button}
+                              title="UPDATE" titleStyle={styles.buttonTitle}
+                            />
+
+                            <Button onPress={this.openEsslTimeTrack.bind(this)} buttonStyle={styles.button} titleStyle={styles.buttonTitle}
+                              icon={ <Icon name="arrow-right" size={15} color="white" />} iconRight
+                              title="eTime Track "
+                            />
+                            
+                        </View>
 
                     </ScrollView>
                 </View>
@@ -162,5 +183,20 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         backgroundColor: '#FAFAFF'//'#1B2732',
+    },
+    button: {
+        width: '100%',
+        marginVertical: 10,
+        borderRadius: 4,
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.buttonBorder
+    },
+    buttonTitle:{
+        fontWeight: 'bold',
+        fontSize: 16,
+        lineHeight: 26
+    },
+    buttonContainer:{
+        padding: 10
     }
 });
