@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,BackHandler, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,BackHandler, ScrollView, Linking } from 'react-native';
 import ListView from 'deprecated-react-native-listview';
 import EmployeeListItem from './EmployeeListItem';
 import FastImage from 'react-native-fast-image'
@@ -9,6 +9,7 @@ import { CheckConnectivity } from "./util/NetworkInfo";
 import { Input, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { theme } from '../src/core/theme';
+import * as ConstantsClass from './util/Constants';
 
 export default class EmployeeDetailsEdit extends Component {
 
@@ -57,7 +58,18 @@ export default class EmployeeDetailsEdit extends Component {
 
     openEsslTimeTrack(){
      console.log("openEsslTimeTrack");   
-        this.props.navigator.push({name: 'webview-essl', data: this.state.employee, title: 'eTime Track'});        
+        // this.props.navigator.push({name: 'webview-essl', data: this.state.employee, title: 'eTime Track'});        
+        this.openURL(ConstantsClass.ESSL_TIME_TRACK_URL);
+    }
+
+    openURL(url) {
+        Linking.canOpenURL(url).then(supported => {
+            if (!supported) {
+                console.log('Can\'t handle url: ' + url);
+            } else {
+                return Linking.openURL(url);
+            }
+        }).catch(err => console.error('An error occurred', err));
     }
 
     render() {
