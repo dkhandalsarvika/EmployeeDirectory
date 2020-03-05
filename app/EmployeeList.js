@@ -7,6 +7,7 @@ import EmployeeListItem from './EmployeeListItem';
 import * as employeeServiceRest from './services/employee-service-rest';
 import * as employeeServiceMock from './services/employee-service-mock';
 import { CheckConnectivity } from "./util/NetworkInfo";
+import Spinner from 'react-native-loading-spinner-overlay';
 var employeeService;
 
 export default class EmployeeList extends Component {
@@ -14,16 +15,17 @@ export default class EmployeeList extends Component {
     constructor() {
         super();        
 
-        console.log(CheckConnectivity._55);
+        this.state = {
+          spinner: true,
+          isLoading: true,
+          refreshing: false,
+          dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+        };
 
         this.serviceCall();
     }
 
     serviceCall(){
-        this.state = {
-          isLoading: true,
-          refreshing: false
-        }
 
         if(!CheckConnectivity._55){
              Alert.alert(
@@ -47,19 +49,24 @@ export default class EmployeeList extends Component {
             employeeService = employeeServiceMock;
         }
 
-        this.state = {
-                        dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-                    };
+
         employeeService.findAll().then(employees => {
-            this.setState({
-                isLoading: false,
-                refreshing:false,
-                dataSource: this.state.dataSource.cloneWithRows(employees)
-            });
+              setTimeout(() => {
+                this.setState({
+                  spinner: !this.state.spinner,
+                  isLoading: false,
+                  refreshing:false,
+                  dataSource: this.state.dataSource.cloneWithRows(employees)
+                });
+              }, 1000);
         });
     }
 
     onRefresh() {
+
+        this.setState({
+            spinner: !this.state.spinner
+        });
  
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
      
@@ -80,13 +87,26 @@ export default class EmployeeList extends Component {
     render() {
           if (this.state.isLoading) {
               return (
-                <View style={{flex: 1, paddingTop: 100}}>
-                  <ActivityIndicator />
+                <View style={styles.container}>
+                  <View style={{flex: 1, paddingTop: 100}}>
+                    <ActivityIndicator />
+                  </View>
+                  <Spinner
+                    visible={this.state.spinner}
+                    textContent={'Loading...'}
+                    textStyle={styles.spinnerTextStyle}
+                  />
                 </View>
               );
         }
         return (
-                <ListView style={styles.container}
+            <View style={styles.container}>
+                <Spinner
+                  visible={this.state.spinner}
+                  textContent={'Loading...'}
+                  textStyle={styles.spinnerTextStyle}
+                />
+                <ListView
                           dataSource={this.state.dataSource}
                           stickyHeaderIndices={[0]}
                           enableEmptySections={true}
@@ -101,6 +121,7 @@ export default class EmployeeList extends Component {
                         />
                     }
                 />
+            </View>
         );
     }
 }
@@ -108,7 +129,8 @@ export default class EmployeeList extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#1B2732',
-        marginTop: 50
+        marginTop: 50,
+        flex: 1
     },
     separator: {
         height: StyleSheet.hairlineWidth,
@@ -117,5 +139,8 @@ const styles = StyleSheet.create({
     whiteText: {
         color: '#FFFFFF',
         fontSize: 20
+    },
+    spinnerTextStyle: {
+        color: '#FFF'
     }
 });

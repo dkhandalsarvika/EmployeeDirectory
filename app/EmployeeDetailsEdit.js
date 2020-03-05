@@ -3,25 +3,39 @@ import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,Back
 import ListView from 'deprecated-react-native-listview';
 import EmployeeListItem from './EmployeeListItem';
 import FastImage from 'react-native-fast-image'
-import * as employeeServiceRest from './services/employee-service-rest';
-import * as employeeServiceMock from './services/employee-service-mock';
+import * as employeeService from './services/employee-service-rest';
 import { CheckConnectivity } from "./util/NetworkInfo";
 import { Input, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { theme } from '../src/core/theme';
 import * as ConstantsClass from './util/Constants';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { emailValidator,fnameValidator,lnameValidator,phoneValidator,ephoneValidator } from '../src/core/utils';
+import { Snackbar } from "react-native-paper";
 
 export default class EmployeeDetailsEdit extends Component {
 
-
-
     constructor(props) {
         super(props);
+        // console.log(this.props.data);
 
-        // console.log(CheckConnectivity._55);
+        this.updateFormField = this.updateFormField.bind(this)
+        this.updateDetails = this.updateDetails.bind(this)
 
         this.state = {
-                employee: this.props.data
+                spinner: false,
+                snackbarvisible: false,
+                messagesnackbar: '',
+                typesnackbar: "error",
+                employee: this.props.data,
+                id: this.props.data.id,
+                empId: this.props.data.empId,
+                firstName: this.props.data.firstName,
+                lastName: this.props.data.lastName,
+                title: this.props.data.title,
+                email: this.props.data.email,
+                phone: this.props.data.phone,
+                mobilePhone: this.props.data.mobilePhone
             };
 
             if (Platform.OS === 'android'){
@@ -48,12 +62,77 @@ export default class EmployeeDetailsEdit extends Component {
         }
     }
 
-    validateName() {
-        console.log("validateName");
+
+
+    updateFormField (fieldName) {
+        return (event) => {
+          this.setState({
+            [fieldName]: event.nativeEvent.text ? event.nativeEvent.text : this.props.data[fieldName],
+          })
+        }
+    }
+
+    validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone) {
+        // console.log("validateFields");
+
+        const firstNameError = fnameValidator(firstName);
+        const lastNameError = lnameValidator(lastName);
+        const emailError = emailValidator(email);
+        const phoneError = phoneValidator(phone);
+        const mobilePhoneError = ephoneValidator(mobilePhone);
+
+        var errorMsg = "";
+        if(firstNameError){
+            errorMsg = firstNameError;
+        }else if(lastNameError){
+            errorMsg = lastNameError;
+        }else if(emailError){
+            errorMsg = emailError;
+        }else if(phoneError){
+            errorMsg = phoneError;
+        }else if(mobilePhoneError){
+            errorMsg = mobilePhoneError;
+        }
+
+        if (errorMsg.length > 0) {
+            this.setState({
+                messagesnackbar: errorMsg,
+                typesnackbar: 'error',
+                snackbarvisible: !this.state.snackbarvisible
+            });
+          return false;
+        }
+        return true;
     }
 
     updateDetails(){
-     console.log("updateDetails");   
+     console.log("updateDetails");
+
+     if(!CheckConnectivity._55){
+        this.setState({
+            messagesnackbar: "Please connect to network to update details.",
+            typesnackbar: 'error',
+            snackbarvisible: !this.state.snackbarvisible
+        });
+        return;
+     }
+
+    const {
+          id,empId,firstName,lastName,title,email,phone,mobilePhone
+        } = this.state
+
+    //validate field code will come here
+    if(!this.validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone)){
+        return;
+    }
+
+    console.log("Came after validate");
+
+    this.setState({
+        spinner: !this.state.spinner
+    });
+
+     this.updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone);   
     }
 
     openEsslTimeTrack(){
@@ -72,12 +151,68 @@ export default class EmployeeDetailsEdit extends Component {
         }).catch(err => console.error('An error occurred', err));
     }
 
+    updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone) {
+        console.log(id);
+        console.log(empId);
+        console.log(firstName);
+        console.log(title);
+        console.log(email);
+        console.log(phone);
+        console.log(mobilePhone);
+
+        // setTimeout(() => {
+        //   this.setState({
+        //     spinner: !this.state.spinner
+        //   });
+        // }, 2000);
+
+        employeeService.updateById(id,empId,firstName,lastName,title,email,phone,mobilePhone)
+        .then(employeedetail => {
+            this.setState({
+                spinner: !this.state.spinner,
+                employee: employeedetail,
+                messagesnackbar: "Details updated successfully.",
+                typesnackbar: 'success',
+                snackbarvisible: !this.state.snackbarvisible
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+            this.setState({
+                spinner: !this.state.spinner,
+                employee: this.props.data,
+                messagesnackbar: "There is some error while updating.",
+                typesnackbar: 'error',
+                snackbarvisible: !this.state.snackbarvisible
+            });
+        });        
+    }
+
     render() {
         if (this.state && this.state.employee) {
             let employee = this.state.employee;
+            let messagesnackbar = this.state.messagesnackbar;
+            let typesnackbar = this.state.typesnackbar;
             return (
                 <View style={styles.container}>
                     <ScrollView style={styles.scrollView}>
+                        <Spinner
+                          visible={this.state.spinner}
+                          textContent={'Updating...'}
+                          textStyle={styles.spinnerTextStyle}
+                        />
+                        <Snackbar
+                          visible={this.state.snackbarvisible}
+                          duration={3000}
+                          onDismiss={() => this.setState({ snackbarvisible: !this.state.snackbarvisible })}
+                          style={{
+                            backgroundColor:
+                              typesnackbar === "error" ? theme.colors.error : theme.colors.success
+                          }}
+                        >
+                          <Text style={styles.snackbarcontent}>{messagesnackbar}</Text>
+                        </Snackbar>
+                        
                         <View style={styles.header}>
                             <FastImage source={{uri: employee.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover} />
                         </View>
@@ -88,33 +223,33 @@ export default class EmployeeDetailsEdit extends Component {
                           editable = {false}
                           
                         />
-                        <Input placeholder={employee.firstName} label = 'First Name'
+                        <Input placeholder={employee.firstName} label = 'First Name' onChange={this.updateFormField('firstName')}
                           leftIcon={ <Icon name='user' size={24} color='#00B386'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your First Name'
                         />
-                        <Input placeholder={employee.lastName} label = 'Last Name'
+                        <Input placeholder={employee.lastName} label = 'Last Name' onChange={this.updateFormField('lastName')}
                           leftIcon={ <Icon name='user' size={24} color='#00B386'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Last Name'
                         />
-                        <Input placeholder={employee.title} label = 'Designation' disabled={true}
+                        <Input placeholder={employee.title} label = 'Designation' disabled={true} onChange={this.updateFormField('title')}
                           leftIcon={ <Icon name='black-tie' size={24} color='#A3A3A3'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Designation'
                           editable = {false}
                         />
-                        <Input placeholder={employee.email} label = 'Email'
+                        <Input placeholder={employee.email} label = 'Email' onChange={this.updateFormField('email')}
                           leftIcon={ <Icon name='envelope' size={24} color='#00B386'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Email'
                         />
-                        <Input placeholder={employee.phone} label = 'Phone'
+                        <Input placeholder={employee.phone} label = 'Phone' onChange={this.updateFormField('phone')} keyboardType='phone-pad'
                           leftIcon={ <Icon name='phone' size={24} color='#00B386'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Phone'
                         />
-                        <Input placeholder={employee.mobilePhone} label = 'Emergency Phone'
+                        <Input placeholder={employee.mobilePhone} label = 'Emergency Phone' onChange={this.updateFormField('mobilePhone')} keyboardType='phone-pad'
                           leftIcon={ <Icon name='phone' size={24} color='red'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Emergency Phone'
@@ -210,5 +345,20 @@ const styles = StyleSheet.create({
     },
     buttonContainer:{
         padding: 10
+    },
+    spinnerTextStyle: {
+        color: '#FFF'
+    },
+    snackbarcontent: {
+        color: '#ffffff',
+        fontSize: 15,
+        fontWeight: 'bold',
+        fontWeight: '500'
+    },
+    snackbarViewStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+        marginTop: 60
     }
 });

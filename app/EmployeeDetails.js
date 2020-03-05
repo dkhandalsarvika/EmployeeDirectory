@@ -52,7 +52,7 @@ export default class EmployeeDetails extends Component {
             if(user !== null){
               // value previously stored
               if(parsedUser.email === this.state.employee.email){ // || parsedUser.email === ConstantsClass.ADMIN_EMAIL
-                this.props.navigator.push({name: 'details-employee', data: this.state.employee,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
+                this.props.navigator.push({name: 'details-employee', data: this.props.data,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
               }
               else if(parsedUser.email !== this.state.employee.email){
                 // console.log(this.state.employee.isAdmin);
@@ -65,7 +65,7 @@ export default class EmployeeDetails extends Component {
 
                 // if user has admin permission then will able to edit other details also
                 if(isAdmin){
-                    this.props.navigator.push({name: 'details-employee', data: this.state.employee,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
+                    this.props.navigator.push({name: 'details-employee', data: this.props.data,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
                 }else{
                     // if another user come to edit then prompt alert message
                    Alert.alert(
