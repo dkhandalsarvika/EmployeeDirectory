@@ -28,15 +28,25 @@ export let findById = (id) => fetch(`${baseURL}/${id}`)
       console.error(error);
     }); 
 
-export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePhone) => fetch(`${baseURL}`,
-		{ 
-		method: 'PUT',
-		body: JSON.stringify({ "id": id, "empId": empId,"firstName": firstName, "lastName": lastName,"title": title, "email": email,"phone": phone, "mobilePhone": mobilePhone }),
-		headers:{
-          'Accept':'application/json',
-          'Content-Type':'application/json'
-	    })
-	    .then((response) => response.json())
-	    .catch((error) => {
-	      console.error(error);
-	    });    
+export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePhone) => fetch(`${updateURL}`,
+		{
+  		method: 'PUT',
+  		headers: {
+            'Accept':'application/json',
+            'Content-Type':'application/json; charset=UTF-8'
+  	    },
+        body: JSON.stringify({
+          id: id,
+          empId: empId,
+          firstName: firstName,
+          lastName: lastName,
+          title: title,
+          email: email,
+          phone: phone,
+          mobilePhone: mobilePhone 
+        })
+        .then((response) => response.json())
+  	    .catch((error) => {
+  	      console.error(error);
+  	    })
+    });    

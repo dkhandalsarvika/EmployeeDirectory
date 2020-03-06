@@ -117,22 +117,22 @@ export default class EmployeeDetailsEdit extends Component {
         return;
      }
 
-    const {
-          id,empId,firstName,lastName,title,email,phone,mobilePhone
-        } = this.state
+        const {
+              id,empId,firstName,lastName,title,email,phone,mobilePhone
+            } = this.state
 
-    //validate field code will come here
-    if(!this.validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone)){
-        return;
-    }
+        //validate field code will come here
+        if(!this.validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone)){
+            return;
+        }
 
-    console.log("Came after validate");
+        console.log("Came after validate");
 
-    this.setState({
-        spinner: !this.state.spinner
-    });
+        this.setState({
+            spinner: !this.state.spinner
+        });
 
-     this.updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone);   
+         this.updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone);   
     }
 
     openEsslTimeTrack(){
@@ -155,6 +155,7 @@ export default class EmployeeDetailsEdit extends Component {
         console.log(id);
         console.log(empId);
         console.log(firstName);
+        console.log(lastName);
         console.log(title);
         console.log(email);
         console.log(phone);

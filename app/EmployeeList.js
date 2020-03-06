@@ -65,6 +65,7 @@ export default class EmployeeList extends Component {
     onRefresh() {
 
         this.setState({
+            isLoading: true,
             spinner: !this.state.spinner
         });
  
@@ -88,8 +89,10 @@ export default class EmployeeList extends Component {
           if (this.state.isLoading) {
               return (
                 <View style={styles.container}>
-                  <View style={{flex: 1, paddingTop: 100}}>
+                  <View style={{flex: 1, paddingTop: 60,alignItems: 'center'}}>
                     <ActivityIndicator />
+                    <Text style={styles.quoteText1}>We mean UNIVERSAL.</Text>
+                    <Text style={styles.quoteText2}>WITHOUT FLAGS, BORDERS and LIMITS.</Text>
                   </View>
                   <Spinner
                     visible={this.state.spinner}
@@ -136,9 +139,14 @@ const styles = StyleSheet.create({
         height: StyleSheet.hairlineWidth,
         backgroundColor: '#AAAAAA'
     },
-    whiteText: {
+    quoteText1: {
+        color: '#00B386',
+        fontSize: 20,
+        paddingTop: 10
+    },
+    quoteText2: {
         color: '#FFFFFF',
-        fontSize: 20
+        fontSize: 15
     },
     spinnerTextStyle: {
         color: '#FFF'
