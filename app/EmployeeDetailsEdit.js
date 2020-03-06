@@ -240,7 +240,7 @@ export default class EmployeeDetailsEdit extends Component {
                           // errorMessage='Please enter your Designation'
                           editable = {false}
                         />
-                        <Input placeholder={employee.email} label = 'Email' onChange={this.updateFormField('email')}
+                        <Input placeholder={employee.email} label = 'Email' onChange={this.updateFormField('email')} disabled={true}
                           leftIcon={ <Icon name='envelope' size={24} color='#00B386'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Email'
