@@ -129,6 +129,13 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
+    //To compress the image assets
+    aaptOptions { 
+     cruncherEnabled = false 
+    }
+    dexOptions {
+       javaMaxHeapSize "3g"
+    }
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
@@ -167,15 +174,22 @@ android {
     }
     buildTypes {
         debug {
+            ndk {
+                abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
+            }
             applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
             resValue "string", "app_name", "@string/app_name_debug"
         }
         release {
+            ndk {
+                abiFilters "armeabi-v7a", "arm64-v8a"
+            }
             // Caution! In production, you need to generate your own keystore file.
             // see https://facebook.github.io/react-native/docs/signed-apk-android.
             signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
+            shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "app_name", "@string/app_name_release"
         }
