@@ -39,6 +39,8 @@ target 'SarvikaED' do
   pod 'Firebase/Analytics'
   
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'SarvikaEDTests' do
     inherit! :search_paths
     # Pods for testing
