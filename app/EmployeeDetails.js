@@ -8,6 +8,7 @@ import * as employeeServiceRest from './services/employee-service-rest';
 import * as employeeServiceMock from './services/employee-service-mock';
 import { CheckConnectivity } from "./util/NetworkInfo";
 import * as ConstantsClass from './util/Constants';
+import Spinner from 'react-native-loading-spinner-overlay';
 var employeeService;
 
 export default class EmployeeDetails extends Component {
@@ -22,13 +23,20 @@ export default class EmployeeDetails extends Component {
             console.log("Device not online EmployeeList");
             employeeService = employeeServiceMock;
         }
-        this.state = {dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})};
+        this.state = {
+                dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+                employeeAdmin: null,
+                spinner: false
+            };
         employeeService.findById(this.props.data.id).then(employee => {
             this.setState({
                 employee: employee,
                 dataSource: this.state.dataSource.cloneWithRows(employee.reports)
             });
         });
+
+        // to check sign in user is having admin type to edit others also
+        this.checkUserAdmin();
 
             if (Platform.OS === 'android'){
                 this.onBackButtonPressed1 = (() => {
@@ -42,31 +50,72 @@ export default class EmployeeDetails extends Component {
             }  
         }
 
+        checkUserAdmin = async ()=>{
+          try {
+                console.log('Getting sign-in user email from AsyncStorage');
+                let user = await AsyncStorage.getItem('user');
+                let parsedUser = JSON.parse(user);
+                let singInUserEmail =  parsedUser.email;
+                console.log(singInUserEmail);
+                employeeService.findByEmail(singInUserEmail).then(employeeAdmin => {
+                    this.setState({
+                        employeeAdmin: employeeAdmin
+                    });
+                });
+            }
+            catch(e) {
+                // error reading value
+                console.log('error reading value for user email');
+                console.log(e);
+                this.setState({
+                    employeeAdmin: null
+                });
+          }
+        }
+
+
         getData = async ()=>{
           try {
             console.log('Getting user from AsyncStorage');
-            let user = await AsyncStorage.getItem('user')
+            this.setState({
+                spinner: !this.state.spinner
+            });
+            let user = await AsyncStorage.getItem('user');
             let parsedUser = JSON.parse(user); 
             console.log(parsedUser.email);
             console.log(this.state.employee.email)
             if(user !== null){
               // value previously stored
               if(parsedUser.email === this.state.employee.email){ // || parsedUser.email === ConstantsClass.ADMIN_EMAIL
+                this.setState({
+                    spinner: !this.state.spinner
+                });
                 this.props.navigator.push({name: 'details-employee', data: this.props.data,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
               }
               else if(parsedUser.email !== this.state.employee.email){
-                // console.log(this.state.employee.isAdmin);
                 var isAdmin = false;
-                if(this.state.employee.isAdmin === undefined || this.state.employee.isAdmin === null){
+
+                // console.log(this.state.employeeAdmin);
+
+                if(this.state.employeeAdmin === undefined || this.state.employeeAdmin === null){
+                    isAdmin = false;
+                }
+                else if(this.state.employeeAdmin.isAdmin === undefined || this.state.employeeAdmin.isAdmin === null){
                     isAdmin = false;
                 }else{
-                    isAdmin = this.state.employee.isAdmin === true ? true : false;
+                    isAdmin = this.state.employeeAdmin.isAdmin === true ? true : false;
                 }
 
                 // if user has admin permission then will able to edit other details also
                 if(isAdmin){
+                    this.setState({
+                        spinner: !this.state.spinner
+                    });
                     this.props.navigator.push({name: 'details-employee', data: this.props.data,title: this.state.employee.firstName + " " +this.state.employee.lastName});        
                 }else{
+                    this.setState({
+                        spinner: !this.state.spinner
+                    });
                     // if another user come to edit then prompt alert message
                    Alert.alert(
                       //title
@@ -83,6 +132,9 @@ export default class EmployeeDetails extends Component {
 
  
               }else{
+                this.setState({
+                    spinner: !this.state.spinner
+                });
                 Alert.alert(
                   //title
                   'Edit Details',
@@ -96,11 +148,18 @@ export default class EmployeeDetails extends Component {
                 );
               }
             }else{
+                this.setState({
+                    spinner: !this.state.spinner
+                });
                 console.log('user not found');
             }
           } catch(e) {
+            this.setState({
+                spinner: !this.state.spinner
+            });
             // error reading value
             console.log('error reading value useremail');
+            console.log(e);
           }
         } 
 
@@ -163,6 +222,11 @@ export default class EmployeeDetails extends Component {
                             <Text style={[styles.mediumText, styles.lightText]}>{employee.title}</Text>
                         </TouchableOpacity>
                         <ActionBar phone={employee.phone} ePhone={employee.mobilePhone} email={employee.email} />
+                        <Spinner
+                          visible={this.state.spinner}
+                          textContent={'Loading...'}
+                          textStyle={styles.spinnerTextStyle}
+                        />
                     </View>
                     {directReports}
                 </View>
@@ -225,5 +289,8 @@ const styles = StyleSheet.create({
     },
     blackText: {
         color: '#333333' //C7C7CC
+    },
+    spinnerTextStyle: {
+        color: '#FFF'
     }
 });

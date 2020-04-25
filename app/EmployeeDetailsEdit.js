@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,BackHandler, ScrollView, Linking } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,BackHandler, ScrollView, Linking, Dimensions } from 'react-native';
 import ListView from 'deprecated-react-native-listview';
 import EmployeeListItem from './EmployeeListItem';
-import FastImage from 'react-native-fast-image'
+import FastImage from 'react-native-fast-image';
 import * as employeeService from './services/employee-service-rest';
 import { CheckConnectivity } from "./util/NetworkInfo";
 import { Input, Button } from 'react-native-elements'
@@ -12,8 +12,12 @@ import * as ConstantsClass from './util/Constants';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { emailValidator,fnameValidator,lnameValidator,phoneValidator,ephoneValidator } from '../src/core/utils';
 import { Snackbar } from "react-native-paper";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 
 export default class EmployeeDetailsEdit extends Component {
+
+    
 
     constructor(props) {
         super(props);
@@ -27,16 +31,28 @@ export default class EmployeeDetailsEdit extends Component {
                 snackbarvisible: false,
                 messagesnackbar: '',
                 typesnackbar: "error",
-                employee: this.props.data,
-                id: this.props.data.id,
-                empId: this.props.data.empId,
-                firstName: this.props.data.firstName,
-                lastName: this.props.data.lastName,
-                title: this.props.data.title,
-                email: this.props.data.email,
-                phone: this.props.data.phone,
-                mobilePhone: this.props.data.mobilePhone
+                isDatePickerVisibleDOB:false,
+                isDatePickerVisibleDOJ:false
             };
+
+              employeeService.findById(this.props.data.id).then(employee => {
+                  this.setState({
+                      employee: employee,
+                      id: employee.id,
+                      empId: employee.empId,
+                      firstName: employee.firstName,
+                      lastName: employee.lastName,
+                      title: employee.title,
+                      email: employee.email,
+                      phone: employee.phone,
+                      mobilePhone: employee.mobilePhone,
+                      picture: employee.picture,
+                      dob: new Date(employee.dob),
+                      doj: new Date(employee.doj),
+                      bloodGrp: employee.bloodGrp,
+                      passportNo: employee.passportNo                      
+                  });
+              });
 
             if (Platform.OS === 'android'){
                 this.onBackButtonPressed1 = (() => {
@@ -49,6 +65,42 @@ export default class EmployeeDetailsEdit extends Component {
                 }).bind(this) //don't forget bind this, you will remember anyway.
             }  
         }
+
+     showDatePickerDOB = () => {
+        this.setState({
+            isDatePickerVisibleDOB: true
+        });
+      };
+     
+    hideDatePickerDOB = () => {
+        this.setState({
+            isDatePickerVisibleDOB: false
+        });
+      };
+     
+    handleConfirmDOB = date => {
+        console.log("A DOB has been picked: ", date);
+        this.state.dob = date;
+        this.hideDatePickerDOB();
+      };   
+
+     showDatePickerDOJ = () => {
+        this.setState({
+            isDatePickerVisibleDOJ: true
+        });
+      };
+     
+    hideDatePickerDOJ = () => {
+        this.setState({
+            isDatePickerVisibleDOJ: false
+        });
+      };
+     
+    handleConfirmDOJ = date => {
+        console.log("A DOJ has been picked: ", date);
+        this.state.doj = date;
+        this.hideDatePickerDOJ();
+      };       
 
     componentDidMount() {
         if (Platform.OS === 'android'){
@@ -118,7 +170,7 @@ export default class EmployeeDetailsEdit extends Component {
      }
 
         const {
-              id,empId,firstName,lastName,title,email,phone,mobilePhone
+              id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo
             } = this.state
 
         //validate field code will come here
@@ -132,7 +184,7 @@ export default class EmployeeDetailsEdit extends Component {
             spinner: !this.state.spinner
         });
 
-         this.updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone);   
+         this.updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo);   
     }
 
     openEsslTimeTrack(){
@@ -151,7 +203,7 @@ export default class EmployeeDetailsEdit extends Component {
         }).catch(err => console.error('An error occurred', err));
     }
 
-    updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone) {
+    updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo) {
         console.log(id);
         console.log(empId);
         console.log(firstName);
@@ -160,6 +212,11 @@ export default class EmployeeDetailsEdit extends Component {
         console.log(email);
         console.log(phone);
         console.log(mobilePhone);
+        console.log(picture);
+        console.log(dob);
+        console.log(doj);
+        console.log(bloodGrp);
+        console.log(passportNo);
 
         // setTimeout(() => {
         //   this.setState({
@@ -167,7 +224,7 @@ export default class EmployeeDetailsEdit extends Component {
         //   });
         // }, 2000);
 
-        employeeService.updateById(id,empId,firstName,lastName,title,email,phone,mobilePhone)
+        employeeService.updateById(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo)
         .then(employeedetail => {
             this.setState({
                 spinner: !this.state.spinner,
@@ -194,6 +251,8 @@ export default class EmployeeDetailsEdit extends Component {
             let employee = this.state.employee;
             let messagesnackbar = this.state.messagesnackbar;
             let typesnackbar = this.state.typesnackbar;
+            let screenHeight = Math.round(Dimensions.get('window').height);
+
             return (
                 <View style={styles.container}>
                     <ScrollView style={styles.scrollView}>
@@ -207,6 +266,7 @@ export default class EmployeeDetailsEdit extends Component {
                           duration={3000}
                           onDismiss={() => this.setState({ snackbarvisible: !this.state.snackbarvisible })}
                           style={{
+                            marginBottom: screenHeight/2,
                             backgroundColor:
                               typesnackbar === "error" ? theme.colors.error : theme.colors.success
                           }}
@@ -217,44 +277,133 @@ export default class EmployeeDetailsEdit extends Component {
                         <View style={styles.header}>
                             <FastImage source={{uri: employee.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover} />
                         </View>
-                         <Input placeholder={employee.empId} label = 'Employee ID' disabled={true}
-                          leftIcon={ <Icon name='id-badge' size={24} color='#A3A3A3'/> }
-                          errorStyle={{ color: 'red' }}
-                          // errorMessage='Please enter your Employee ID'
-                          editable = {false}
-                          
-                        />
-                        <Input placeholder={employee.firstName} label = 'First Name' onChange={this.updateFormField('firstName')}
-                          leftIcon={ <Icon name='user' size={24} color='#00B386'/> }
-                          errorStyle={{ color: 'red' }}
-                          // errorMessage='Please enter your First Name'
-                        />
-                        <Input placeholder={employee.lastName} label = 'Last Name' onChange={this.updateFormField('lastName')}
-                          leftIcon={ <Icon name='user' size={24} color='#00B386'/> }
-                          errorStyle={{ color: 'red' }}
-                          // errorMessage='Please enter your Last Name'
-                        />
-                        <Input placeholder={employee.title} label = 'Designation' disabled={true} onChange={this.updateFormField('title')}
-                          leftIcon={ <Icon name='black-tie' size={24} color='#A3A3A3'/> }
-                          errorStyle={{ color: 'red' }}
-                          // errorMessage='Please enter your Designation'
-                          editable = {false}
-                        />
+
+                        <View style={styles.containerMiddle}>
+                            <View style={{flex:1}}>
+                                 <Input placeholder={employee.empId} label = 'Employee ID' disabled={true}
+                                  leftIcon={ <Icon name='id-badge' size={24} color='#A3A3A3' style={{justifyContent: 'flex-start'}}/> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your Employee ID'
+                                  editable = {false}
+                                  
+                                />
+                            </View>
+                            <View style={{flex:2}}>
+                                <Input placeholder={employee.title} label = 'Designation' disabled={true} onChange={this.updateFormField('title')}
+                                  leftIcon={ <Icon name='black-tie' size={24} color='#A3A3A3' style={{justifyContent: 'flex-end'}}/> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your Designation'
+                                  editable = {false}
+                                />
+                            </View>
+                        </View>
+                        
                         <Input placeholder={employee.email} label = 'Email' onChange={this.updateFormField('email')} disabled={true}
                           leftIcon={ <Icon name='envelope' size={24} color='#00B386'/> }
                           errorStyle={{ color: 'red' }}
                           // errorMessage='Please enter your Email'
-                        />
-                        <Input placeholder={employee.phone} label = 'Phone' onChange={this.updateFormField('phone')} keyboardType='phone-pad'
-                          leftIcon={ <Icon name='phone' size={24} color='#00B386'/> }
-                          errorStyle={{ color: 'red' }}
-                          // errorMessage='Please enter your Phone'
-                        />
-                        <Input placeholder={employee.mobilePhone} label = 'Emergency Phone' onChange={this.updateFormField('mobilePhone')} keyboardType='phone-pad'
-                          leftIcon={ <Icon name='phone' size={24} color='red'/> }
-                          errorStyle={{ color: 'red' }}
-                          // errorMessage='Please enter your Emergency Phone'
-                        />
+                        /> 
+
+                        <View style={styles.containerMiddle}>
+                            <View style={{flex:1}}>
+                                <Input placeholder={employee.firstName} label = 'First Name' onChange={this.updateFormField('firstName')}
+                                  leftIcon={ <Icon name='user' size={24} color='#00B386' style={{justifyContent: 'flex-start'}}/> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your First Name'
+                                />
+                            </View>
+                            <View style={{flex:1}}>
+                                  <Input placeholder={employee.lastName} label = 'Last Name' onChange={this.updateFormField('lastName')}
+                                    leftIcon={ <Icon name='user' size={24} color='#00B386' style={{justifyContent: 'flex-end'}}/> }
+                                    errorStyle={{ color: 'red' }}
+                                    // errorMessage='Please enter your Last Name'
+                                  />
+                            </View>
+                        </View>
+                        
+                        <View style={styles.containerMiddle}>
+                            <View style={{flex:1}}>
+                                <Input placeholder={employee.phone} label = 'Phone' onChange={this.updateFormField('phone')} keyboardType='phone-pad'
+                                  leftIcon={ <Icon name='phone' size={24} color='#00B386' style={{justifyContent: 'flex-start'}}/> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your Phone'
+                                />
+                            </View>
+                            <View style={{flex:1}}>
+                                <Input placeholder={employee.mobilePhone} label = 'Emergency Phone' onChange={this.updateFormField('mobilePhone')} keyboardType='phone-pad'
+                                  leftIcon={ <Icon name='phone' size={24} color='red' style={{justifyContent: 'flex-end'}}/> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your Emergency Phone'
+                                />
+                            </View>
+                        </View>
+
+                        <View style={styles.containerMiddle}>
+                            <View style={{flex:1}}>
+                                <Input placeholder={employee.bloodGrp} label = 'Blood Group' onChange={this.updateFormField('bloodGrp')}
+                                  leftIcon={ <Icon name='tint' size={24} color='#00B386' style={{justifyContent: 'flex-start'}}/> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your First Name'
+                                />
+                            </View>
+                            <View style={{flex:1}}>
+                                <Input placeholder={employee.passportNo} label = 'Passport Number' onChange={this.updateFormField('passportNo')}
+                                  leftIcon={ <Icon name='address-card' size={24} color='#00B386' style={{justifyContent: 'flex-end'}}/> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your First Name'
+                                />
+                            </View>
+                        </View>                        
+                                             
+                        <View style={styles.containerDatePicker}>
+                            <Text style={styles.datesText}>
+                              Date Of Birth:
+                            </Text>
+                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                              <Text>
+                                {this.state.dob.toString().substr(4, 12)}
+                              </Text>           
+                              <View>
+                                  <Icon.Button name="calendar" onPress={this.showDatePickerDOB} size={24} color="#00B386" backgroundColor="#FAFAFF"/>
+                              </View>
+                            </View>                
+
+                        </View>
+                        <DateTimePickerModal
+                            isVisible={this.state.isDatePickerVisibleDOB}
+                            date={this.state.dob}
+                            minimumDate={new Date(1920, 1, 1)}
+                            maximumDate={new Date()}
+                            mode="date"
+                            onConfirm={this.handleConfirmDOB}
+                            onCancel={this.hideDatePickerDOB}
+                          />
+                        <View style={styles.horizontalLine} />
+                        <View style={styles.containerDatePicker}>
+                            <Text style={styles.datesText}>
+                              Date Of Joining:
+                            </Text>
+                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                              <Text>
+                                {this.state.doj.toString().substr(4, 12)}
+                              </Text>                                      
+                              <View>
+                                  <Icon.Button name="calendar" onPress={this.showDatePickerDOJ} size={24} color="#00B386" backgroundColor="#FAFAFF"/>
+                              </View>
+                            </View>                  
+
+                        </View>                        
+                        <DateTimePickerModal
+                            isVisible={this.state.isDatePickerVisibleDOJ}
+                            date={this.state.doj}
+                            minimumDate={new Date(1920, 1, 1)}
+                            maximumDate={new Date()}
+                            mode="date"
+                            onConfirm={this.handleConfirmDOJ}
+                            onCancel={this.hideDatePickerDOJ}
+                          />
+                        <View style={styles.horizontalLine} />   
+
                         <View style={styles.buttonContainer}>
                             <Button onPress={this.updateDetails} buttonStyle={styles.button}
                               title="UPDATE" titleStyle={styles.buttonTitle}
@@ -266,6 +415,7 @@ export default class EmployeeDetailsEdit extends Component {
                             />
                             
                         </View>
+
 
                     </ScrollView>
                 </View>
@@ -361,5 +511,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         marginTop: 60
+    },
+    containerDatePicker: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingLeft: 10,
+        paddingRight: 10
+    },
+    datesText: {
+        fontSize: 16,
+        color: '#87949F',
+        fontWeight: 'bold'
+    },
+    containerMiddle: {
+        flexDirection: 'row'
+    },
+    horizontalLine:{
+      width:'95%',
+      height:1,
+      backgroundColor:'#A3A3A3',
+      margin:10
     }
 });

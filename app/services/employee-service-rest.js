@@ -22,13 +22,19 @@ export let findByName = (name) => fetch(`${baseURL}?name=${name}`)
       console.error(error);
     }); 
 
+export let findByEmail = (email) => fetch(`${baseURL}?email=${email}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });     
+
 export let findById = (id) => fetch(`${baseURL}/${id}`)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);
     }); 
 
-export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePhone) => fetch(`${updateURL}`,{
+export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo) => fetch(`${updateURL}`,{
     		method: 'PUT',
     		headers: {
             'Accept':'application/json',
@@ -42,7 +48,12 @@ export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePho
           title: title,
           email: email,
           phone: phone,
-          mobilePhone: mobilePhone 
+          mobilePhone: mobilePhone,
+          picture: picture,
+          dob: dob,
+          doj: doj,
+          bloodGrp: bloodGrp,
+          passportNo: passportNo
         })
       })
       .then((response) => response.json())
