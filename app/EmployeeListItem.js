@@ -24,32 +24,36 @@ export default class EmployeeListItem extends Component {
     }
 
     render() {
-        const pageName = (this.props.navigator.getCurrentRoutes().length == 1) ? true : false;
-        return (
-            <TouchableHighlight onPress={this.showDetails.bind(this)} underlayColor={'#EEEEEE'}>
-                <View style={styles.container}>
-                <FastImage source={{uri: this.props.data.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover}/>
-                    <View style={styles.projectText}>
-                        <Text style={styles.empNameText}>{this.props.data.firstName} {this.props.data.lastName}</Text>
-                        <Text style={styles.title}>{this.props.data.title}</Text>
-                    </View>
-                    <View style={styles.moreContainer}>
-                     {pageName ? (
-                            <View style={styles.subContainer}>
-                                <TouchableOpacity onPress={this.callNumber.bind(this)} style={styles.action}>
-                                    <Image source={require('./assets/call.png')} style={styles.icon} />
-                                </TouchableOpacity>
+        if (this.props.data) {
+            const pageName = (this.props.navigator.getCurrentRoutes().length == 1) ? true : false;
+            return (
+                <TouchableHighlight onPress={this.showDetails.bind(this)} underlayColor={'#EEEEEE'}>
+                    <View style={styles.container}>
+                    <FastImage source={{uri: this.props.data.picture,priority: FastImage.priority.normal}} style={styles.picture} resizeMode={FastImage.resizeMode.cover}/>
+                        <View style={styles.projectText}>
+                            <Text style={styles.empNameText}>{this.props.data.firstName} {this.props.data.lastName}</Text>
+                            <Text style={styles.title}>{this.props.data.title}</Text>
+                        </View>
+                        <View style={styles.moreContainer}>
+                         {pageName ? (
+                                <View style={styles.subContainer}>
+                                    <TouchableOpacity onPress={this.callNumber.bind(this)} style={styles.action}>
+                                        <Image source={require('./assets/call.png')} style={styles.icon} />
+                                    </TouchableOpacity>
+                                    <Icon name="chevron-right" size={15} style={styles.moreIcon} />
+                                </View>
+                            ) : (
                                 <Icon name="chevron-right" size={15} style={styles.moreIcon} />
-                            </View>
-                        ) : (
-                            <Icon name="chevron-right" size={15} style={styles.moreIcon} />
-                        )
-                     }
-                       
+                            )
+                         }
+                           
+                        </View>
                     </View>
-                </View>
-            </TouchableHighlight>
-        )
+                </TouchableHighlight>
+            )
+        } else {
+            return null;
+        }
     }
 }
 
