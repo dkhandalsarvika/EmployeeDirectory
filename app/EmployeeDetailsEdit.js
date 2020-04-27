@@ -10,7 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { theme } from '../src/core/theme';
 import * as ConstantsClass from './util/Constants';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { emailValidator,fnameValidator,lnameValidator,phoneValidator,ephoneValidator } from '../src/core/utils';
+import { emailValidator,fnameValidator,lnameValidator,phoneValidator,ephoneValidator,passportNoValidator,panValidator } from '../src/core/utils';
 import { Snackbar } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -32,7 +32,8 @@ export default class EmployeeDetailsEdit extends Component {
                 messagesnackbar: '',
                 typesnackbar: "error",
                 isDatePickerVisibleDOB:false,
-                isDatePickerVisibleDOJ:false
+                isDatePickerVisibleDOJ:false,
+                isDatePickerVisiblePassExp: false
             };
 
               employeeService.findById(this.props.data.id).then(employee => {
@@ -50,7 +51,9 @@ export default class EmployeeDetailsEdit extends Component {
                       dob: new Date(employee.dob),
                       doj: new Date(employee.doj),
                       bloodGrp: employee.bloodGrp,
-                      passportNo: employee.passportNo                      
+                      passportNo: employee.passportNo,
+                      passportExpiry: employee.passportExpiry ? new Date(employee.passportExpiry) : new Date('2030-04-22T09:28:24.326Z'),
+                      pan: employee.pan ? employee.pan : 'ATEPD866B'                      
                   });
               });
 
@@ -100,7 +103,25 @@ export default class EmployeeDetailsEdit extends Component {
         console.log("A DOJ has been picked: ", date);
         this.state.doj = date;
         this.hideDatePickerDOJ();
-      };       
+      };
+
+      showDatePickerPassportExp = () => {
+        this.setState({
+            isDatePickerVisiblePassExp: true
+        });
+      };
+     
+    hideDatePickerPassExp = () => {
+        this.setState({
+            isDatePickerVisiblePassExp: false
+        });
+      };
+     
+    handleConfirmPassExp = date => {
+        console.log("A Passport Expiry has been picked: ", date);
+        this.state.passportExpiry = date;
+        this.hideDatePickerPassExp();
+      };         
 
     componentDidMount() {
         if (Platform.OS === 'android'){
@@ -124,14 +145,16 @@ export default class EmployeeDetailsEdit extends Component {
         }
     }
 
-    validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone) {
-        // console.log("validateFields");
+    validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone,passportNo,pan) {
+        //console.log(passportNo);
 
         const firstNameError = fnameValidator(firstName);
         const lastNameError = lnameValidator(lastName);
         const emailError = emailValidator(email);
         const phoneError = phoneValidator(phone);
         const mobilePhoneError = ephoneValidator(mobilePhone);
+        const passportNoError = passportNoValidator(passportNo);
+        const panError = panValidator(pan);
 
         var errorMsg = "";
         if(firstNameError){
@@ -144,6 +167,10 @@ export default class EmployeeDetailsEdit extends Component {
             errorMsg = phoneError;
         }else if(mobilePhoneError){
             errorMsg = mobilePhoneError;
+        }else if(passportNoError){
+            errorMsg = passportNoError;
+        }else if(panError){
+            errorMsg = panError;
         }
 
         if (errorMsg.length > 0) {
@@ -170,11 +197,11 @@ export default class EmployeeDetailsEdit extends Component {
      }
 
         const {
-              id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo
+              id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo,passportExpiry,pan
             } = this.state
 
         //validate field code will come here
-        if(!this.validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone)){
+        if(!this.validateFields(id,empId,firstName,lastName,title,email,phone,mobilePhone,passportNo,pan)){
             return;
         }
 
@@ -184,7 +211,7 @@ export default class EmployeeDetailsEdit extends Component {
             spinner: !this.state.spinner
         });
 
-         this.updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo);   
+         this.updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo,passportExpiry,pan);   
     }
 
     openEsslTimeTrack(){
@@ -203,20 +230,22 @@ export default class EmployeeDetailsEdit extends Component {
         }).catch(err => console.error('An error occurred', err));
     }
 
-    updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo) {
-        console.log(id);
-        console.log(empId);
-        console.log(firstName);
-        console.log(lastName);
-        console.log(title);
-        console.log(email);
-        console.log(phone);
-        console.log(mobilePhone);
-        console.log(picture);
-        console.log(dob);
-        console.log(doj);
-        console.log(bloodGrp);
-        console.log(passportNo);
+    updateEmpDetails(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo,passportExpiry,pan) {
+        // console.log(id);
+        // console.log(empId);
+        // console.log(firstName);
+        // console.log(lastName);
+        // console.log(title);
+        // console.log(email);
+        // console.log(phone);
+        // console.log(mobilePhone);
+        // console.log(picture);
+        // console.log(dob);
+        // console.log(doj);
+        // console.log(bloodGrp);
+        // console.log(passportNo);
+        // console.log(passportExpiry);
+        // console.log(pan);
 
         // setTimeout(() => {
         //   this.setState({
@@ -224,7 +253,7 @@ export default class EmployeeDetailsEdit extends Component {
         //   });
         // }, 2000);
 
-        employeeService.updateById(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo)
+        employeeService.updateById(id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo,passportExpiry,pan)
         .then(employeedetail => {
             this.setState({
                 spinner: !this.state.spinner,
@@ -340,20 +369,57 @@ export default class EmployeeDetailsEdit extends Component {
 
                         <View style={styles.containerMiddle}>
                             <View style={{flex:1}}>
-                                <Input placeholder={employee.bloodGrp} label = 'Blood Group' onChange={this.updateFormField('bloodGrp')}
+                                <Input autoCapitalize= 'characters' placeholder={employee.bloodGrp} label = 'Blood Group' onChange={this.updateFormField('bloodGrp')}
                                   leftIcon={ <Icon name='tint' size={24} color='#00B386' style={{justifyContent: 'flex-start'}}/> }
                                   errorStyle={{ color: 'red' }}
                                   // errorMessage='Please enter your First Name'
                                 />
                             </View>
                             <View style={{flex:1}}>
-                                <Input placeholder={employee.passportNo} label = 'Passport Number' onChange={this.updateFormField('passportNo')}
-                                  leftIcon={ <Icon name='address-card' size={24} color='#00B386' style={{justifyContent: 'flex-end'}}/> }
+                                <Input autoCapitalize= 'characters' placeholder={employee.pan} label = 'PAN Number' onChange={this.updateFormField('pan')}
+                                  leftIcon={ <Icon name='address-card' size={24} color='#00B386' style={{justifyContent: 'flex-end'}} /> }
                                   errorStyle={{ color: 'red' }}
                                   // errorMessage='Please enter your First Name'
                                 />
                             </View>
                         </View>                        
+
+                        <View style={styles.containerMiddle}>
+                            <View style={{flex:1}}>
+                                <Input autoCapitalize= 'characters' placeholder={employee.passportNo} label = 'Passport Number' onChange={this.updateFormField('passportNo')}
+                                  leftIcon={ <Icon name='address-card' size={24} color='#00B386' style={{justifyContent: 'flex-start'}} /> }
+                                  errorStyle={{ color: 'red' }}
+                                  // errorMessage='Please enter your First Name'
+                                />
+                            </View>
+                            <View style={{flex:1}}>
+                                <View style={{flexDirection: 'column', alignItems: 'flex-end',justifyContent: 'flex-end', paddingRight: 10}}>
+                                    <Text style={styles.datesTextPassport}>
+                                      Passport Expiry Date:
+                                    </Text>
+                                    <View style={{flexDirection: 'row', alignItems: 'center',justifyContent: 'flex-end'}}>
+                                      <Text>
+                                        {this.state.passportExpiry.toString().substr(4, 12)}
+                                      </Text>           
+                                      <View>
+                                          <Icon.Button name="calendar" onPress={this.showDatePickerPassportExp} size={24} color="#00B386" backgroundColor="#FAFAFF"/>
+                                      </View>
+                                    </View>
+                                    <View style={styles.horizontalLinePassport} />  
+                                </View>
+                            </View>
+                        </View>
+                          <DateTimePickerModal
+                            isVisible={this.state.isDatePickerVisiblePassExp}
+                            date={this.state.passportExpiry}
+                            minimumDate={new Date(1920, 1, 1)}
+                            maximumDate={new Date(2050, 1, 1)}
+                            mode="date"
+                            onConfirm={this.handleConfirmPassExp}
+                            onCancel={this.hideDatePickerPassExp}
+                          />       
+
+                                            
                                              
                         <View style={styles.containerDatePicker}>
                             <Text style={styles.datesText}>
@@ -409,7 +475,7 @@ export default class EmployeeDetailsEdit extends Component {
                               title="UPDATE" titleStyle={styles.buttonTitle}
                             />
 
-                            <Button onPress={this.openEsslTimeTrack.bind(this)} buttonStyle={styles.button} titleStyle={styles.buttonTitle}
+                            <Button onPress={this.openEsslTimeTrack.bind(this)} buttonStyle={styles.buttonEssl} titleStyle={styles.buttonTitle}
                               icon={ <Icon name="arrow-right" size={15} color="white" />} iconRight
                               title="eTime Track "
                             />
@@ -489,13 +555,21 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.primary,
         borderColor: theme.colors.buttonBorder
     },
+    buttonEssl: {
+        width: '100%',
+        marginVertical: 10,
+        borderRadius: 4,
+        backgroundColor: theme.colors.primary,
+        borderColor: theme.colors.buttonBorder,
+        display: 'none'
+    },
     buttonTitle:{
         fontWeight: 'bold',
         fontSize: 16,
         lineHeight: 26
     },
     buttonContainer:{
-        padding: 10
+        padding: 20
     },
     spinnerTextStyle: {
         color: '#FFF'
@@ -524,13 +598,27 @@ const styles = StyleSheet.create({
         color: '#87949F',
         fontWeight: 'bold'
     },
+    datesTextPassport: {
+        fontSize: 16,
+        color: '#87949F',
+        fontWeight: 'bold',
+        marginRight: 25
+    },
     containerMiddle: {
         flexDirection: 'row'
     },
     horizontalLine:{
       width:'95%',
       height:1,
-      backgroundColor:'#A3A3A3',
+      backgroundColor:'#8D99A3',
       margin:10
+    },
+    horizontalLinePassport:{
+      width:'100%',
+      height:2,
+      backgroundColor:'#99A4AE',
+      marginTop:8,
+      marginLeft:10,
+      marginRight:10
     }
 });

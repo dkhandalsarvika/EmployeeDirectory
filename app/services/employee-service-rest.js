@@ -34,7 +34,7 @@ export let findById = (id) => fetch(`${baseURL}/${id}`)
       console.error(error);
     }); 
 
-export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo) => fetch(`${updateURL}`,{
+export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePhone,picture,dob,doj,bloodGrp,passportNo,passportExpiry,pan) => fetch(`${updateURL}`,{
     		method: 'PUT',
     		headers: {
             'Accept':'application/json',
@@ -53,7 +53,9 @@ export let updateById = (id,empId,firstName,lastName,title,email,phone,mobilePho
           dob: dob,
           doj: doj,
           bloodGrp: bloodGrp,
-          passportNo: passportNo
+          passportNo: passportNo,
+          passportExpiry: passportExpiry,
+          pan: pan
         })
       })
       .then((response) => response.json())

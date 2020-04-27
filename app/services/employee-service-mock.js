@@ -138,7 +138,7 @@ let employees = [ {
     "doj" : "2020-04-22T09:28:24.326Z",
     "bloodGrp" : "B+",
     "passportNo" : "XXXXXXXX",
-    "isActive" : true,
+    "isActive" : false,
     "isAdmin" : false
   }, {
     "email" : "anmol.jain@sarvika.com",
@@ -964,6 +964,8 @@ export let findById = (id) => new Promise((resolve, reject) => {
         doj: employee.doj,
         bloodGrp: employee.bloodGrp,
         passportNo: employee.passportNo,
+        passportExpiry: employee.passportExpiry,
+        pan: employee.pan,        
         isActive: employee.isActive,
         isAdmin: employee.isAdmin,
         manager: employees.filter(item => employee.managerId == item.id)[0],
