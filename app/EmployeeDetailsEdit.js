@@ -3,7 +3,8 @@ import { View, Text, Image, StyleSheet, TouchableOpacity,Navigator,Platform,Back
 import ListView from 'deprecated-react-native-listview';
 import EmployeeListItem from './EmployeeListItem';
 import FastImage from 'react-native-fast-image';
-import * as employeeService from './services/employee-service-rest';
+import * as employeeServiceRest from './services/employee-service-rest';
+import * as employeeServiceMock from './services/employee-service-mock';
 import { CheckConnectivity } from "./util/NetworkInfo";
 import { Input, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,7 +14,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { emailValidator,fnameValidator,lnameValidator,phoneValidator,ephoneValidator,passportNoValidator,panValidator } from '../src/core/utils';
 import { Snackbar } from "react-native-paper";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+var employeeService;
 
 export default class EmployeeDetailsEdit extends Component {
 
@@ -22,6 +23,14 @@ export default class EmployeeDetailsEdit extends Component {
     constructor(props) {
         super(props);
         // console.log(this.props.data);
+
+        if(CheckConnectivity._55){
+            console.log("Device online EmployeeList");
+            employeeService = employeeServiceRest;
+        }else{
+            console.log("Device not online EmployeeList");
+            employeeService = employeeServiceMock;
+        }
 
         this.updateFormField = this.updateFormField.bind(this)
         this.updateDetails = this.updateDetails.bind(this)
